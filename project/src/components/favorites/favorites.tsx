@@ -8,6 +8,8 @@ type OfferProps = {
 }
 
 function Favorites({offers}: OfferProps): JSX.Element {
+  const favoriteItems = offers.filter((offer) => offer.isFavorite);
+
   return (
     <div className="page">
       <Header />
@@ -16,8 +18,7 @@ function Favorites({offers}: OfferProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavoritesItem offer = {offers[0]} />
-              <FavoritesItem offer = {offers[1]}/>
+              {favoriteItems.map((offer) => <FavoritesItem key={offer.id} offer = {offer} />)}
             </ul>
           </section>
         </div>

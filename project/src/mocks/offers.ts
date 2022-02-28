@@ -89,7 +89,7 @@ export const offers: Hotel[] = [
     },
     id: 3,
     images: ['img/apartment-01.jpg', 'img/apartment-03.jpg', 'img/apartment-02.jpg'],
-    isFavorite: true,
+    isFavorite: false,
     isPremium: false,
     location: {
       latitude: 41.9856,

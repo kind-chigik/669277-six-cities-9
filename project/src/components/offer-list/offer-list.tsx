@@ -10,9 +10,7 @@ function OfferList({offers}: OffersProps) {
   const [, setActiveOffer] = useState(0);
   return (
     <div className="cities__places-list places__list tabs__content">
-      <OfferCard offer = {offers[0]} activeOfferHandler = {setActiveOffer} />
-      <OfferCard offer = {offers[1]} activeOfferHandler = {setActiveOffer} />
-      <OfferCard offer = {offers[2]} activeOfferHandler = {setActiveOffer} />
+      {offers.map((offer) => <OfferCard key={offer.id} offer = {offer} activeOfferHandler = {setActiveOffer} />)}
     </div>
   );
 }
