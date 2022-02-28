@@ -6,23 +6,25 @@ import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
+import {Hotel} from '../../types/hotel';
 
 type OfferProps = {
   offersCount: number;
+  offers: Hotel[];
 }
 
-function App(props: OfferProps): JSX.Element {
+function App({offersCount, offers}: OfferProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<Main offersCount = {props.offersCount} />}></Route>
+        <Route path={AppRoute.Root} element={<Main offersCount = {offersCount} offers = {offers} />}></Route>
         <Route path={AppRoute.Login} element={<Login />}></Route>
         <Route path={AppRoute.Favotites} element={
-          <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}><Favorites /></PrivateRoute>
+          <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}><Favorites offers = {offers}/></PrivateRoute>
         }
         >
         </Route>
-        <Route path={AppRoute.Offer} element={<Offer />}></Route>
+        <Route path={AppRoute.Offer} element={<Offer offers = {offers} />}></Route>
         <Route path='*' element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>

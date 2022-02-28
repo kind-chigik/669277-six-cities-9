@@ -1,10 +1,12 @@
-import OfferCard from '../offer-card/offer-card';
+import OfferList from '../offer-list/offer-list';
 import Header from '../header/header';
 import {Link} from 'react-router-dom';
 import {AuthorizationStatus} from '../../const';
+import {Hotel} from '../../types/hotel';
 
 type OfferProps = {
   offersCount: number;
+  offers: Hotel[];
 }
 
 function Main(props: OfferProps): JSX.Element {
@@ -74,13 +76,7 @@ function Main(props: OfferProps): JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <div className="cities__places-list places__list tabs__content">
-                  <OfferCard />
-                  <OfferCard />
-                  <OfferCard />
-                  <OfferCard />
-                  <OfferCard />
-                </div>
+                <OfferList offers = {props.offers} />
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map"></section>

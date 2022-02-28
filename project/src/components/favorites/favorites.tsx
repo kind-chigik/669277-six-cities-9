@@ -1,8 +1,13 @@
 import FavoritesItem from '../favorites-item/favorites-item';
 import Header from '../header/header';
 import Footer from '../footer/footer';
+import {Hotel} from '../../types/hotel';
 
-function Favorites(): JSX.Element {
+type OfferProps = {
+  offers: Hotel[];
+}
+
+function Favorites({offers}: OfferProps): JSX.Element {
   return (
     <div className="page">
       <Header />
@@ -11,8 +16,8 @@ function Favorites(): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavoritesItem />
-              <FavoritesItem />
+              <FavoritesItem offer = {offers[0]} />
+              <FavoritesItem offer = {offers[1]}/>
             </ul>
           </section>
         </div>
