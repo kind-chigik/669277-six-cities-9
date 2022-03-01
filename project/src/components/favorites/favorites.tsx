@@ -1,8 +1,15 @@
 import FavoritesItem from '../favorites-item/favorites-item';
 import Header from '../header/header';
 import Footer from '../footer/footer';
+import {Hotel} from '../../types/hotel';
 
-function Favorites(): JSX.Element {
+type OfferProps = {
+  offers: Hotel[];
+}
+
+function Favorites({offers}: OfferProps): JSX.Element {
+  const favoriteItems = offers.filter((offer) => offer.isFavorite);
+
   return (
     <div className="page">
       <Header />
@@ -11,8 +18,7 @@ function Favorites(): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavoritesItem />
-              <FavoritesItem />
+              {favoriteItems.map((offer) => <FavoritesItem key={offer.id} offer = {offer} />)}
             </ul>
           </section>
         </div>
