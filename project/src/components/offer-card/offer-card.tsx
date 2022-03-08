@@ -8,14 +8,15 @@ type OfferCardProps = {
 
 function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
   const {id, price, title, type, previewImage} = offer;
-  const mouseOverHandler = () => {
+
+  const mouseEnterHandler = () => {
     if (activeOfferHandler) {
       activeOfferHandler(id);
     }
   };
 
   return (
-    <article className="cities__place-card place-card" onMouseOver = {mouseOverHandler}>
+    <article className="cities__place-card place-card" onMouseEnter = {mouseEnterHandler}>
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
