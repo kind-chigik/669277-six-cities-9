@@ -1,15 +1,37 @@
 import OfferList from '../offer-list/offer-list';
 import Header from '../header/header';
+import Map from '../map/map';
 import {Link} from 'react-router-dom';
 import {AuthorizationStatus} from '../../const';
 import {Hotel} from '../../types/hotel';
+import {useState} from 'react';
+import {CITY} from '../../mocks/cities';
 
 type OfferProps = {
   offersCount: number;
   offers: Hotel[];
 }
 
+function getActiveOffer(offers: Hotel[], id: number) {
+  const activeOffer = offers.find((offer) => offer.id === id);
+
+  if (activeOffer) {
+    const offerForMap = {
+      city: activeOffer.city.name,
+      lat: activeOffer.location.latitude,
+      lng: activeOffer.location.longitude,
+      zoom: activeOffer.location.zoom,
+      id: activeOffer.id,
+    };
+    return offerForMap;
+  }
+  return null;
+}
+
 function Main(props: OfferProps): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState(0);
+  const activeOffer = getActiveOffer(props.offers, activeOfferId);
+
   return (
     <>
       <div style={{display: 'none'}}>
@@ -76,10 +98,10 @@ function Main(props: OfferProps): JSX.Element {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OfferList offers = {props.offers} />
+                <OfferList offers = {props.offers} activeOfferHandler = {setActiveOfferId}/>
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <Map offers={props.offers} activeOffer={activeOffer} city={CITY}/>
               </div>
             </div>
           </div>

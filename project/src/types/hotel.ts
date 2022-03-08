@@ -39,3 +39,10 @@ export type Hotel = {
   type: string;
 }
 
+export type OfferForMap = {
+  city: string;
+  lat: number;
+  lng: number;
+  zoom: number;
+  id: number;
+}
