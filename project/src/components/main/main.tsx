@@ -6,26 +6,12 @@ import {AuthorizationStatus} from '../../const';
 import {Hotel} from '../../types/hotel';
 import {useState} from 'react';
 import {CITY} from '../../mocks/cities';
+import {getActiveOffer} from '../../helper';
+import {ClassMap} from '../../const';
 
 type OfferProps = {
   offersCount: number;
   offers: Hotel[];
-}
-
-function getActiveOffer(offers: Hotel[], id: number) {
-  const activeOffer = offers.find((offer) => offer.id === id);
-
-  if (activeOffer) {
-    const offerForMap = {
-      city: activeOffer.city.name,
-      lat: activeOffer.location.latitude,
-      lng: activeOffer.location.longitude,
-      zoom: activeOffer.location.zoom,
-      id: activeOffer.id,
-    };
-    return offerForMap;
-  }
-  return null;
 }
 
 function Main(props: OfferProps): JSX.Element {
@@ -101,7 +87,7 @@ function Main(props: OfferProps): JSX.Element {
                 <OfferList offers = {props.offers} activeOfferHandler = {setActiveOfferId}/>
               </section>
               <div className="cities__right-section">
-                <Map offers={props.offers} activeOffer={activeOffer} city={CITY}/>
+                <Map offers={props.offers} activeOffer={activeOffer} city={CITY} classMap={ClassMap.Cities} />
               </div>
             </div>
           </div>
