@@ -14,4 +14,9 @@ export enum AuthorizationStatus {
 export const LAYER_MAP_URL = 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/water/EPSG:3857/{z}/{x}/{y}.png';
 export const LAYER_MAP_COPYRIGHT = 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>';
 
+export enum ClassMap {
+  Cities = 'cities__map',
+  Property = 'property__map',
+}
+
 

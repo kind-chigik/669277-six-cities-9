@@ -9,6 +9,7 @@ type mapProps = {
   offers: Hotel[];
   activeOffer: OfferForMap | null;
   city: City;
+  classMap?: string;
 }
 
 const defaultCustomIcon = leaflet.icon({
@@ -31,7 +32,7 @@ function getIcon(offerId: number, activeOffer: OfferForMap | null) {
   return defaultCustomIcon;
 }
 
-function Map({offers, activeOffer, city}: mapProps): JSX.Element {
+function Map({offers, activeOffer, city, classMap}: mapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -50,7 +51,7 @@ function Map({offers, activeOffer, city}: mapProps): JSX.Element {
   }, [map, offers, activeOffer]);
 
   return (
-    <section className="map" style={{height: '751px', width: '512px'}} ref={mapRef}></section>
+    <section className={`${classMap} map`} ref={mapRef}></section>
   );
 }
 

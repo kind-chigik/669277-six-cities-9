@@ -1,23 +1,39 @@
 import OfferCard from '../offer-card/offer-card';
 import ReviewForm from '../review-form/review-form';
 import Header from '../header/header';
-import Review from '../review/review';
+import ReviewList from '../review-list/review-list';
+import Map from '../map/map';
 import {AuthorizationStatus} from '../../const';
 import {Hotel} from '../../types/hotel';
 import {useParams} from 'react-router-dom';
 import {reviews} from '../../mocks/reviews';
+import {useState} from 'react';
+import {getActiveOffer} from '../../helper';
+import {CITY} from '../../mocks/cities';
+import {ClassMap} from '../../const';
 
 type OfferProps = {
   offers: Hotel[];
 }
 
+function getNearOffers(offers: Hotel[]) {
+  const nearOffers = [];
+  for (let i = 0; i <= 2; i++) {
+    nearOffers.push(offers[i]);
+  }
+  return nearOffers;
+}
+
 function Offer({offers}: OfferProps): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState(0);
   const offerId = useParams();
   const offer = offers.filter((element) => element.id === Number(offerId.id));
   const {images, isPremium, title, type, bedrooms, maxAdults, price, goods, host, description} = offer[0];
   const {name, isPro, avatarUrl} = host;
   const isOfferPremium = isPremium ? <div className="property__mark"><span>Premium</span></div> : '';
   const isHostPro = isPro ? <span className="property__user-status">Pro</span> : '';
+  const nearOffers = getNearOffers(offers);
+  const activeOffer = getActiveOffer(nearOffers, activeOfferId);
 
   return (
     <div className="page">
@@ -101,21 +117,19 @@ function Offer({offers}: OfferProps): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <Review review = {reviews[0]} />
-                </ul>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+                <ReviewList reviews={reviews} />
                 <ReviewForm />
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <Map offers={nearOffers} activeOffer={activeOffer} city={CITY} classMap={ClassMap.Property}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OfferCard offer = {offers[0]} />
+              {nearOffers.map((nearOffer) => <OfferCard key={nearOffer.id} offer = {nearOffer} activeOfferHandler = {setActiveOfferId}/>)}
             </div>
           </section>
         </div>
