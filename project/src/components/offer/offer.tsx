@@ -22,8 +22,6 @@ function Offer({offers}: OfferProps): JSX.Element {
   const offer = offers.filter((element) => element.id === Number(offerId.id));
   const {images, isPremium, title, type, bedrooms, maxAdults, price, goods, host, description} = offer[0];
   const {name, isPro, avatarUrl} = host;
-  const isOfferPremium = isPremium ? <div className="property__mark"><span>Premium</span></div> : '';
-  const isHostPro = isPro ? <span className="property__user-status">Pro</span> : '';
   const activeCity = useAppSelector((state) => state.city);
   const nearOffers = offers.filter((element) => element.city.name === activeCity);
   const activeOffer = getActiveOffer(nearOffers, activeOfferId);
@@ -47,7 +45,7 @@ function Offer({offers}: OfferProps): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isOfferPremium}
+              {isPremium && <div className="property__mark"><span>Premium</span></div>}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {title}
@@ -102,7 +100,7 @@ function Offer({offers}: OfferProps): JSX.Element {
                   <span className="property__user-name">
                     {name}
                   </span>
-                  {isHostPro}
+                  {isPro && <span className="property__user-status">Pro</span>}
                 </div>
                 <div className="property__description">
                   <p className="property__text">
