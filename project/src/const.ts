@@ -22,6 +22,7 @@ export enum ClassMap {
 export enum Action {
   ChangeCity = 'main/changeCity',
   ChangeOffers = 'main/changeOffers',
+  ChangeOffersSort = 'main/changeOffersSort',
 }
 
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
@@ -32,4 +33,11 @@ export const INITIAL_CITY = {
   lng: 2.3488,
   zoom: 10,
 };
+
+export enum SortType {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first',
+}
 
