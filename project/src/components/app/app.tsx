@@ -17,7 +17,7 @@ function App({offersCount, offers}: OfferProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<Main offersCount = {offersCount} offers = {offers} />}></Route>
+        <Route path={AppRoute.Root} element={<Main offers = {offers} />}></Route>
         <Route path={AppRoute.Login} element={<Login />}></Route>
         <Route path={AppRoute.Favotites} element={
           <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}><Favorites offers = {offers}/></PrivateRoute>

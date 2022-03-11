@@ -160,8 +160,8 @@ export const offers: Hotel[] = [
     isFavorite: true,
     isPremium: false,
     location: {
-      latitude: 48.35514938496378,
-      longitude: 2.673877537499948,
+      latitude: 48.8534,
+      longitude: 2.3488,
       zoom: 8,
     },
     maxAdults: 2,
@@ -172,6 +172,40 @@ export const offers: Hotel[] = [
     type: 'Private Room',
   },
   {
+    bedrooms: 1,
+    city: {
+      location: {
+        latitude: 48.8534,
+        longitude: 2.3488,
+        zoom: 10,
+      },
+      name: 'Paris',
+    },
+    description: 'AAAAAAAAAAA cozy room in the center of Paris.',
+    goods: ['Heating', 'Washing machine', 'Wi-Fi', 'Coffee machine'],
+    host: {
+      avatarUrl: 'img/avatar-max.jpg',
+      id: 3,
+      isPro: false,
+      name: 'Maxim',
+    },
+    id: 7,
+    images: ['img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/apartment-01.jpg'],
+    isFavorite: true,
+    isPremium: false,
+    location: {
+      latitude: 48.8534,
+      longitude: 2.3169,
+      zoom: 8,
+    },
+    maxAdults: 2,
+    previewImage: 'img/apartment-03.jpg',
+    price: 120,
+    rating: 4.4,
+    title: 'luxurious room at great location',
+    type: 'Private Room',
+  },
+  {
     bedrooms: 2,
     city: {
       location: {
@@ -179,7 +213,7 @@ export const offers: Hotel[] = [
         longitude: 87.65,
         zoom: 10,
       },
-      name: 'Chicago',
+      name: 'Cologne',
     },
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     goods: ['Heating', 'Wifi', 'Kitchen'],

@@ -47,8 +47,9 @@ function Map({offers, activeOffer, city, classMap}: mapProps): JSX.Element {
         })
           .addTo(map);
       });
+      map.setView([city.lat, city.lng]);
     }
-  }, [map, offers, activeOffer]);
+  }, [map, offers, activeOffer, city]);
 
   return (
     <section className={`${classMap} map`} ref={mapRef}></section>

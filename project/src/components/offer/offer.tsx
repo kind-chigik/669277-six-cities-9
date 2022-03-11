@@ -6,22 +6,14 @@ import Map from '../map/map';
 import {AuthorizationStatus} from '../../const';
 import {Hotel} from '../../types/hotel';
 import {useParams} from 'react-router-dom';
+import {useAppSelector} from '../../hooks';
 import {reviews} from '../../mocks/reviews';
 import {useState} from 'react';
-import {getActiveOffer} from '../../helper';
-import {CITY} from '../../mocks/cities';
+import {getActiveOffer, getCityForMap} from '../../helper';
 import {ClassMap} from '../../const';
 
 type OfferProps = {
   offers: Hotel[];
-}
-
-function getNearOffers(offers: Hotel[]) {
-  const nearOffers = [];
-  for (let i = 0; i <= 2; i++) {
-    nearOffers.push(offers[i]);
-  }
-  return nearOffers;
 }
 
 function Offer({offers}: OfferProps): JSX.Element {
@@ -32,8 +24,10 @@ function Offer({offers}: OfferProps): JSX.Element {
   const {name, isPro, avatarUrl} = host;
   const isOfferPremium = isPremium ? <div className="property__mark"><span>Premium</span></div> : '';
   const isHostPro = isPro ? <span className="property__user-status">Pro</span> : '';
-  const nearOffers = getNearOffers(offers);
+  const activeCity = useAppSelector((state) => state.city);
+  const nearOffers = offers.filter((element) => element.city.name === activeCity);
   const activeOffer = getActiveOffer(nearOffers, activeOfferId);
+  const cityForMap = getCityForMap(activeCity);
 
   return (
     <div className="page">
@@ -123,7 +117,7 @@ function Offer({offers}: OfferProps): JSX.Element {
               </section>
             </div>
           </div>
-          <Map offers={nearOffers} activeOffer={activeOffer} city={CITY} classMap={ClassMap.Property}/>
+          <Map offers={nearOffers} activeOffer={activeOffer} city={cityForMap} classMap={ClassMap.Property}/>
         </section>
         <div className="container">
           <section className="near-places places">
