@@ -15,3 +15,9 @@ export const changeOffers = createAction(Action.ChangeOffers, (value) => (
   }
 ));
 
+export const changeOffersSort = createAction(Action.ChangeOffersSort, (value) => (
+  {
+    type: Action.ChangeOffersSort,
+    payload: value,
+  }
+));
