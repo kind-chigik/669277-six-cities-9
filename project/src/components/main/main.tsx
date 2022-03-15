@@ -6,7 +6,7 @@ import CitiesList from '../cities-list/cities-list';
 import {AuthorizationStatus} from '../../const';
 import {Hotel} from '../../types/hotel';
 import {useState} from 'react';
-import {getActiveOffer, getCityForMap, getSortedOffersForCity} from '../../helper';
+import {getActiveOffer, getCityForMap, getSortedOffersForCity} from '../../utils';
 import {ClassMap, CITIES} from '../../const';
 import {useAppSelector} from '../../hooks';
 

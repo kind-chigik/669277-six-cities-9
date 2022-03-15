@@ -21,3 +21,11 @@ export const changeOffersSort = createAction(Action.ChangeOffersSort, (value) =>
     payload: value,
   }
 ));
+
+export const loadOffers = createAction(Action.LoadOffers, (value) => (
+  {
+    type: Action.LoadOffers,
+    payload: value,
+  }
+));
+

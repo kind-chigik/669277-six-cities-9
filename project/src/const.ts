@@ -11,6 +11,10 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum APIRoute {
+  hotels = '/hotels',
+}
+
 export const LAYER_MAP_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 export const LAYER_MAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
@@ -23,6 +27,8 @@ export enum Action {
   ChangeCity = 'main/changeCity',
   ChangeOffers = 'main/changeOffers',
   ChangeOffersSort = 'main/changeOffersSort',
+  LoadOffers = 'data/loadOffers',
+  FetchOffers = 'data/fetchOffers',
 }
 
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

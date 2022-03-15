@@ -1,9 +1,10 @@
-import { Hotel } from './types/hotel';
+import {Hotel} from './types/hotel';
 import {citiesForMap} from './mocks/cities';
 import {City} from './types/city';
+import {OfferForMap} from './types/hotel';
 import {INITIAL_CITY, SortType} from './const';
 
-export function getActiveOffer(offers: Hotel[], id: number) {
+export function getActiveOffer(offers: Hotel[], id: number): OfferForMap | null {
   const activeOffer = offers.find((offer) => offer.id === id);
 
   if (activeOffer) {
@@ -29,22 +30,22 @@ export function getCityForMap(city: string): City {
   return cityForMap;
 }
 
-export function comparePriceLowToHigh(element1: Hotel, element2: Hotel) {
+export function comparePriceLowToHigh(element1: Hotel, element2: Hotel): number {
   const result = element1.price - element2.price;
   return result;
 }
 
-export function comparePriceHighToLow(element1: Hotel, element2: Hotel) {
+export function comparePriceHighToLow(element1: Hotel, element2: Hotel): number {
   const result = element2.price - element1.price;
   return result;
 }
 
-export function compareRating(element1: Hotel, element2: Hotel) {
+export function compareRating(element1: Hotel, element2: Hotel): number {
   const result = element2.rating - element1.rating;
   return result;
 }
 
-export function getSortedOffersForCity(offers: Hotel[], type: string) {
+export function getSortedOffersForCity(offers: Hotel[], type: string): Hotel[] {
   const sourceOffers = offers;
 
   switch (type) {

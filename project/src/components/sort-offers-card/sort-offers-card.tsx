@@ -1,7 +1,7 @@
 import {SortType} from '../../const';
 import {useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeOffersSort} from '../../store/action';
+import {changeOffersSort} from '../../store/actions';
 
 function SortOfferCard(): JSX.Element {
   const [isListSortOpened, setIsListSortOpened] = useState(false);

@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, changeOffers, changeOffersSort} from './action';
+import {changeCity, changeOffers, changeOffersSort, loadOffers} from './actions';
 import {offers} from '../mocks/offers';
 import {INITIAL_CITY, SortType} from '../const';
 
@@ -9,6 +9,8 @@ const initialState = {
   city: INITIAL_CITY.title,
   offerList: initialCities,
   offerSort: SortType.Popular,
+  offers: [],
+  isDataLoaded: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -20,6 +22,10 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeOffersSort, (state, action) => {
       state.offerSort = action.payload;
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+      state.isDataLoaded = true;
     });
 });
 
