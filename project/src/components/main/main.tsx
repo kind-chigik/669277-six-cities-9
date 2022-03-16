@@ -3,7 +3,6 @@ import SortOfferCard from '../sort-offers-card/sort-offers-card';
 import Header from '../header/header';
 import Map from '../map/map';
 import CitiesList from '../cities-list/cities-list';
-import {AuthorizationStatus} from '../../const';
 import {Hotel} from '../../types/hotel';
 import {useState} from 'react';
 import {getActiveOffer, getCityForMap, getSortedOffersForCity} from '../../utils';
@@ -31,7 +30,7 @@ function Main(props: OfferProps): JSX.Element {
       </div>
 
       <div className="page page--gray page--main">
-        <Header authorizationStatus={AuthorizationStatus.NoAuth} />
+        <Header />
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">

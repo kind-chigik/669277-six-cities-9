@@ -3,7 +3,6 @@ import ReviewForm from '../review-form/review-form';
 import Header from '../header/header';
 import ReviewList from '../review-list/review-list';
 import Map from '../map/map';
-import {AuthorizationStatus} from '../../const';
 import {Hotel} from '../../types/hotel';
 import {useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
@@ -29,7 +28,7 @@ function Offer({offers}: OfferProps): JSX.Element {
 
   return (
     <div className="page">
-      <Header authorizationStatus={AuthorizationStatus.NoAuth} />
+      <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
