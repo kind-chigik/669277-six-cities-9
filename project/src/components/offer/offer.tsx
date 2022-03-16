@@ -9,7 +9,7 @@ import {useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
 import {reviews} from '../../mocks/reviews';
 import {useState} from 'react';
-import {getActiveOffer, getCityForMap} from '../../helper';
+import {getActiveOffer, getCityForMap} from '../../utils';
 import {ClassMap} from '../../const';
 
 type OfferProps = {

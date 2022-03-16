@@ -7,8 +7,8 @@ export const citiesForMap = [
   },
   {
     title: 'Cologne',
-    lat: 41.85,
-    lng: 87.65,
+    lat: 50.938361,
+    lng: 6.959974,
     zoom: 10,
   },
   {

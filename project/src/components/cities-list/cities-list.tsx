@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeCity, changeOffers} from '../../store/action';
+import {changeCity, changeOffers} from '../../store/actions';
 import {Hotel} from '../../types/hotel';
 
 type CitiesListProps = {

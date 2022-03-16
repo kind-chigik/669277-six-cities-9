@@ -3,17 +3,22 @@ import Login from '../login/login';
 import Favorites from '../favorites/favorites';
 import Offer from '../offer/offer';
 import NotFound from '../not-found/not-found';
+import LoadingScreen from '../loading-screen/loading-screen';
 import PrivateRoute from '../private-route/private-route';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {Hotel} from '../../types/hotel';
+import {useAppSelector} from '../../hooks';
 
-type OfferProps = {
-  offersCount: number;
-  offers: Hotel[];
-}
+function App(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
+  const isDataLoaded = useAppSelector((state) => state.isDataLoaded);
 
-function App({offersCount, offers}: OfferProps): JSX.Element {
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
