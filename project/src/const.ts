@@ -12,7 +12,15 @@ export enum AuthorizationStatus {
 }
 
 export enum APIRoute {
-  hotels = '/hotels',
+  Hotels = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+}
+
+export enum HTTP_CODE {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  NOT_FOUND = 404,
 }
 
 export const LAYER_MAP_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
@@ -29,6 +37,10 @@ export enum Action {
   ChangeOffersSort = 'main/changeOffersSort',
   LoadOffers = 'data/loadOffers',
   FetchOffers = 'data/fetchOffers',
+  RequireAuthorization = 'user/requireAuthorization',
+  CheckAuth = 'user/checkAuth',
+  Login = 'user/login',
+  Logout = 'user/logout',
 }
 
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

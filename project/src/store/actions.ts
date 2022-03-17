@@ -29,3 +29,9 @@ export const loadOffers = createAction(Action.LoadOffers, (value) => (
   }
 ));
 
+export const requireAuthorization = createAction(Action.RequireAuthorization, (value) => (
+  {
+    type: Action.RequireAuthorization,
+    payload: value,
+  }
+));

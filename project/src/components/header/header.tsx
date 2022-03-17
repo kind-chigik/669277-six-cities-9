@@ -2,11 +2,10 @@ import HeaderAuthorization from '../header-authorization/header-authorization';
 import {Link} from 'react-router-dom';
 
 type LoginProps = {
-  authorizationStatus?: string;
   isPageLogin?: boolean;
 }
 
-function Header(props: LoginProps): JSX.Element {
+function Header({isPageLogin}: LoginProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -16,7 +15,7 @@ function Header(props: LoginProps): JSX.Element {
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
-          <HeaderAuthorization isPageLogin={props.isPageLogin} authorizationStatus={props.authorizationStatus}/>
+          <HeaderAuthorization isPageLogin={isPageLogin} />
         </div>
       </div>
     </header>

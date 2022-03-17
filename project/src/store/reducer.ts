@@ -1,7 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, changeOffers, changeOffersSort, loadOffers} from './actions';
+import {changeCity, changeOffers, changeOffersSort, loadOffers, requireAuthorization} from './actions';
 import {offers} from '../mocks/offers';
-import {INITIAL_CITY, SortType} from '../const';
+import {INITIAL_CITY, SortType, AuthorizationStatus} from '../const';
 
 const initialCities = offers.filter((offer) => offer.city.name === 'Paris');
 
@@ -11,6 +11,7 @@ const initialState = {
   offerSort: SortType.Popular,
   offers: [],
   isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -26,6 +27,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
       state.isDataLoaded = true;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 
