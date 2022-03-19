@@ -29,6 +29,20 @@ export const loadOffers = createAction(Action.LoadOffers, (value) => (
   }
 ));
 
+export const loadComments = createAction(Action.LoadComments, (value) => (
+  {
+    type: Action.LoadComments,
+    payload: value,
+  }
+));
+
+export const loadNearbyOffers = createAction(Action.LoadNearbyOffers, (value) => (
+  {
+    type: Action.LoadNearbyOffers,
+    payload: value,
+  }
+));
+
 export const requireAuthorization = createAction(Action.RequireAuthorization, (value) => (
   {
     type: Action.RequireAuthorization,

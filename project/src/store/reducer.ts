@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, changeOffers, changeOffersSort, loadOffers, requireAuthorization} from './actions';
+import {changeCity, changeOffers, changeOffersSort, loadOffers, loadComments, loadNearbyOffers, requireAuthorization} from './actions';
 import {offers} from '../mocks/offers';
 import {INITIAL_CITY, SortType, AuthorizationStatus} from '../const';
 
@@ -10,6 +10,8 @@ const initialState = {
   offerList: initialCities,
   offerSort: SortType.Popular,
   offers: [],
+  comments: [],
+  nearbyOffers: [],
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.Unknown,
 };
@@ -27,6 +29,12 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
       state.isDataLoaded = true;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;

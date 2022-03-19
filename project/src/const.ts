@@ -15,6 +15,8 @@ export enum APIRoute {
   Hotels = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments/',
+  Nearby = '/nearby',
 }
 
 export enum HTTP_CODE {
@@ -37,10 +39,15 @@ export enum Action {
   ChangeOffersSort = 'main/changeOffersSort',
   LoadOffers = 'data/loadOffers',
   FetchOffers = 'data/fetchOffers',
+  FetchComments = 'data/fetchComments',
+  LoadComments = 'data/loadComments',
+  FetchNearbyOffers = 'data/fetchNearbyOffers',
+  LoadNearbyOffers = 'data/loadNearbyOffers',
   RequireAuthorization = 'user/requireAuthorization',
   CheckAuth = 'user/checkAuth',
   Login = 'user/login',
   Logout = 'user/logout',
+  AddComment = 'data/addComment',
 }
 
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

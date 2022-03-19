@@ -1,14 +1,25 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Action, APIRoute, AuthorizationStatus} from '../const';
 import {api, store} from '../store';
-import {loadOffers, requireAuthorization} from './actions';
+import {loadOffers, loadComments, loadNearbyOffers, requireAuthorization} from './actions';
 import {AuthData} from '../types/auth-data';
+import {UserComment} from '../types/user-comment';
 import {saveToken, dropToken} from '../services/token';
 import {errorHandle} from '../services/error-handle';
 
 export const fetchOffersAction = createAsyncThunk(Action.FetchOffers, async () => {
   const {data} = await api.get(APIRoute.Hotels);
   store.dispatch(loadOffers(data));
+});
+
+export const fetchCommentsAction = createAsyncThunk(Action.FetchComments, async (id: number) => {
+  const {data} = await api.get(`${APIRoute.Comments}${id}`);
+  store.dispatch(loadComments(data));
+});
+
+export const fetchNearbyOffersAction = createAsyncThunk(Action.FetchNearbyOffers, async (id: number) => {
+  const {data} = await api.get(`${APIRoute.Hotels}/${id}${APIRoute.Nearby}`);
+  store.dispatch(loadNearbyOffers(data));
 });
 
 export const checkAuthAction = createAsyncThunk(Action.CheckAuth, async () => {
@@ -37,6 +48,15 @@ export const logoutAction = createAsyncThunk(Action.Logout, async () => {
     await api.delete(APIRoute.Logout);
     dropToken();
     store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  } catch(error) {
+    errorHandle(error);
+  }
+});
+
+export const addCommentAction = createAsyncThunk(Action.AddComment, async ({comment, rating, id}: UserComment) => {
+  try {
+    await api.post(`${APIRoute.Comments}${id}`, {comment, rating});
+    store.dispatch(fetchCommentsAction(id));
   } catch(error) {
     errorHandle(error);
   }
