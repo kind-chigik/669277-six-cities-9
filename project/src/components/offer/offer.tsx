@@ -3,13 +3,14 @@ import ReviewForm from '../review-form/review-form';
 import Header from '../header/header';
 import ReviewList from '../review-list/review-list';
 import Map from '../map/map';
+import NotFound from '../not-found/not-found';
 import {Hotel} from '../../types/hotel';
 import {useParams} from 'react-router-dom';
-import {useAppSelector} from '../../hooks';
-import {reviews} from '../../mocks/reviews';
-import {useState} from 'react';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {useEffect, useState} from 'react';
 import {getActiveOffer, getCityForMap} from '../../utils';
-import {ClassMap} from '../../const';
+import {ClassMap, AuthorizationStatus} from '../../const';
+import {fetchCommentsAction, fetchNearbyOffersAction} from '../../store/api-actions';
 
 type OfferProps = {
   offers: Hotel[];
@@ -18,13 +19,32 @@ type OfferProps = {
 function Offer({offers}: OfferProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState(0);
   const offerId = useParams();
-  const offer = offers.filter((element) => element.id === Number(offerId.id));
+  const currentOfferId = Number(offerId.id);
+
+  const activeCity = useAppSelector((state) => state.city);
+  const comments = useAppSelector((state) => state.comments);
+  const nearbyOffers: Hotel[] = useAppSelector((state) => state.nearbyOffers);
+  const authorizationStatus = useAppSelector((store) => store.authorizationStatus);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (offer.length !== 0) {
+      dispatch(fetchCommentsAction(currentOfferId));
+      dispatch(fetchNearbyOffersAction(currentOfferId));
+    }
+  }, [currentOfferId]);
+
+  const offer = offers.filter((element) => element.id === currentOfferId);
+  if (offer.length === 0) {
+    return <NotFound />;
+  }
+
   const {images, isPremium, title, type, bedrooms, maxAdults, price, goods, host, description} = offer[0];
   const {name, isPro, avatarUrl} = host;
-  const activeCity = useAppSelector((state) => state.city);
-  const nearOffers = offers.filter((element) => element.city.name === activeCity);
-  const activeOffer = getActiveOffer(nearOffers, activeOfferId);
+
+  const activeOffer = getActiveOffer(nearbyOffers, activeOfferId);
   const cityForMap = getCityForMap(activeCity);
+  const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <div className="page">
@@ -108,19 +128,19 @@ function Offer({offers}: OfferProps): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <ReviewList reviews={reviews} />
-                <ReviewForm />
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+                <ReviewList reviews={comments} />
+                {isUserAuth && <ReviewForm offerId={offer[0].id}/>}
               </section>
             </div>
           </div>
-          <Map offers={nearOffers} activeOffer={activeOffer} city={cityForMap} classMap={ClassMap.Property}/>
+          <Map offers={nearbyOffers} activeOffer={activeOffer} city={cityForMap} classMap={ClassMap.Property}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearOffers.map((nearOffer) => <OfferCard key={nearOffer.id} offer = {nearOffer} activeOfferHandler = {setActiveOfferId}/>)}
+              {nearbyOffers.map((nearOffer) => <OfferCard key={nearOffer.id} offer = {nearOffer} activeOfferHandler = {setActiveOfferId}/>)}
             </div>
           </section>
         </div>
