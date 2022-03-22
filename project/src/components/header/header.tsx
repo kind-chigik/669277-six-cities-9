@@ -1,5 +1,6 @@
 import HeaderAuthorization from '../header-authorization/header-authorization';
 import {Link} from 'react-router-dom';
+import {memo} from 'react';
 
 type LoginProps = {
   isPageLogin?: boolean;
@@ -22,4 +23,4 @@ function Header({isPageLogin}: LoginProps): JSX.Element {
   );
 }
 
-export default Header;
+export default memo(Header);

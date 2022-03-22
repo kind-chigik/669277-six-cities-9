@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {FormEvent, ChangeEvent, useState} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
+import {saveUserLogin} from '../../store/app-process/app-process';
 import {useAppSelector} from '../../hooks';
 import {AuthorizationStatus, AppRoute} from '../../const';
 import {Navigate} from 'react-router-dom';
@@ -10,7 +11,7 @@ import {Navigate} from 'react-router-dom';
 function Login(): JSX.Element {
   const [inputEmail, setInpuEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
-  const {authorizationStatus} = useAppSelector((state)=> state);
+  const {authorizationStatus} = useAppSelector(({USER}) => USER);
   const dispatch = useAppDispatch();
 
   const inputEmailHandler = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +29,7 @@ function Login(): JSX.Element {
 
     if (inputEmail !== '' && inputPassword !== '') {
       dispatch(loginAction({email: inputEmail, password: inputPassword}));
+      dispatch(saveUserLogin(inputEmail));
     }
   };
 

@@ -1,12 +1,13 @@
 import {SortType} from '../../const';
 import {useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeOffersSort} from '../../store/actions';
+import {changeOffersSort} from '../../store/app-process/app-process';
+import {memo} from 'react';
 
 function SortOfferCard(): JSX.Element {
   const [isListSortOpened, setIsListSortOpened] = useState(false);
   const dispatch = useAppDispatch();
-  const activeSortType = useAppSelector((state) => state.offerSort);
+  const activeSortType = useAppSelector(({APP}) => APP.offerSort);
   const SortTypes = Object.values(SortType);
 
   const clickSortListHandler = () => {
@@ -34,4 +35,4 @@ function SortOfferCard(): JSX.Element {
   );
 }
 
-export default SortOfferCard;
+export default memo(SortOfferCard);

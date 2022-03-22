@@ -10,7 +10,7 @@ import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
 
 function App(): JSX.Element {
-  const {offers, isDataLoaded}= useAppSelector((state)=> state);
+  const {offers, isDataLoaded}= useAppSelector(({DATA})=> DATA);
 
   if (!isDataLoaded) {
     return (

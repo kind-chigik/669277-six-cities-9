@@ -16,8 +16,8 @@ type OfferProps = {
 function Main(props: OfferProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState(0);
   const activeOffer = getActiveOffer(props.offers, activeOfferId);
-  const activeCity = useAppSelector((state) => state.city);
-  const activeSortType = useAppSelector((state) => state.offerSort);
+  const activeCity = useAppSelector(({APP}) => APP.city);
+  const activeSortType = useAppSelector(({APP}) => APP.offerSort);
   const offersForActiveCity = props.offers.filter((offer) => offer.city.name === activeCity);
   const sortedOffersForActiveCity = getSortedOffersForCity(offersForActiveCity, activeSortType);
 
