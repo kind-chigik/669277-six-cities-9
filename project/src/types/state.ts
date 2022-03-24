@@ -12,7 +12,7 @@ export type UserProcess = {
 };
 
 export type AppProcess = {
-  city: string;
+  activeCity: string;
   offerSort: SortType.Popular;
   userLogin: string;
 };

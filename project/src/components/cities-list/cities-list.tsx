@@ -11,7 +11,7 @@ type CitiesListProps = {
 
 function CitiesList({cities, offers}: CitiesListProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector(({APP}) => APP.city);
+  const {activeCity} = useAppSelector(({APP}) => APP);
   const isCityChecked = (city: string) => city === activeCity ? 'tabs__item--active' : '';
 
   const clickHandler = (city: string, hotels: Hotel[]) => {

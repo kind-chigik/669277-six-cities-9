@@ -3,7 +3,7 @@ import {INITIAL_CITY, SortType, Process} from '../../const';
 import {AppProcess} from '../../types/state';
 
 const initialState: AppProcess = {
-  city: INITIAL_CITY.title,
+  activeCity: INITIAL_CITY.title,
   offerSort: SortType.Popular,
   userLogin: '',
 };
@@ -13,7 +13,7 @@ export const appProcess = createSlice({
   initialState,
   reducers: {
     changeCity: (state, action) => {
-      state.city = action.payload;
+      state.activeCity = action.payload;
     },
     changeOffersSort: (state, action) => {
       state.offerSort = action.payload;
