@@ -1,7 +1,9 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Action, APIRoute, AuthorizationStatus} from '../const';
 import {api, store} from '../store';
-import {loadOffers, loadComments, loadNearbyOffers, requireAuthorization} from './actions';
+import {loadOffers, loadComments, loadNearbyOffers} from './data-process/data-process';
+import {requireAuthorization} from './user-process/user-process';
+import { saveUserLogin } from './app-process/app-process';
 import {AuthData} from '../types/auth-data';
 import {UserComment} from '../types/user-comment';
 import {saveToken, dropToken} from '../services/token';
@@ -24,8 +26,9 @@ export const fetchNearbyOffersAction = createAsyncThunk(Action.FetchNearbyOffers
 
 export const checkAuthAction = createAsyncThunk(Action.CheckAuth, async () => {
   try {
-    await api.get(APIRoute.Login);
+    const {data} = await api.get(APIRoute.Login);
     store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    store.dispatch(saveUserLogin(data.email));
   } catch(error) {
     errorHandle(error);
     store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));

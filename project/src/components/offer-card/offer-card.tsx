@@ -7,7 +7,7 @@ type OfferCardProps = {
 }
 
 function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
-  const {id, price, title, type, previewImage} = offer;
+  const {id, price, title, type, previewImage, isPremium} = offer;
 
   const mouseEnterHandler = () => {
     if (activeOfferHandler) {
@@ -17,9 +17,10 @@ function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
 
   return (
     <article className="cities__place-card place-card" onMouseEnter = {mouseEnterHandler}>
+      {isPremium &&
       <div className="place-card__mark">
         <span>Premium</span>
-      </div>
+      </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />

@@ -1,12 +1,13 @@
 import {SortType} from '../../const';
 import {useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeOffersSort} from '../../store/actions';
+import {changeOffersSort} from '../../store/app-process/app-process';
+import {memo} from 'react';
 
 function SortOfferCard(): JSX.Element {
   const [isListSortOpened, setIsListSortOpened] = useState(false);
   const dispatch = useAppDispatch();
-  const activeSortType = useAppSelector((state) => state.offerSort);
+  const {offerSort} = useAppSelector(({APP}) => APP);
   const SortTypes = Object.values(SortType);
 
   const clickSortListHandler = () => {
@@ -22,16 +23,16 @@ function SortOfferCard(): JSX.Element {
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0} onClick={clickSortListHandler}>
-        {activeSortType}
+        {offerSort}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${isListSortOpened && 'places__options--opened'}`}>
-        {SortTypes.map((sortType) => <li key={sortType} className={`places__option ${(activeSortType === sortType) && 'places__option--active'}`} tabIndex={0} onClick={() => clickSortTypeHandler(sortType)} >{sortType}</li>)}
+        {SortTypes.map((sortType) => <li key={sortType} className={`places__option ${(offerSort === sortType) && 'places__option--active'}`} tabIndex={0} onClick={() => clickSortTypeHandler(sortType)} >{sortType}</li>)}
       </ul>
     </form>
   );
 }
 
-export default SortOfferCard;
+export default memo(SortOfferCard);

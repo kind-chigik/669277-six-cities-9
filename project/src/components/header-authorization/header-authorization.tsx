@@ -8,7 +8,8 @@ type LoginProps = {
 }
 
 function HeaderAuthorization(props: LoginProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const {authorizationStatus} = useAppSelector(({USER}) => USER);
+  const {userLogin} = useAppSelector(({APP}) => APP);
   const dispatch = useAppDispatch();
 
   const logoutHandler = () => dispatch(logoutAction());
@@ -27,7 +28,7 @@ function HeaderAuthorization(props: LoginProps): JSX.Element {
             <Link className="header__nav-link header__nav-link--profile" to="#">
               <div className="header__avatar-wrapper user__avatar-wrapper">
               </div>
-              <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+              <span className="header__user-name user__name">{userLogin}</span>
             </Link>
           </li>
           <li className="header__nav-item">

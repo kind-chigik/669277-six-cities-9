@@ -21,10 +21,9 @@ function Offer({offers}: OfferProps): JSX.Element {
   const offerId = useParams();
   const currentOfferId = Number(offerId.id);
 
-  const activeCity = useAppSelector((state) => state.city);
-  const comments = useAppSelector((state) => state.comments);
-  const nearbyOffers: Hotel[] = useAppSelector((state) => state.nearbyOffers);
-  const authorizationStatus = useAppSelector((store) => store.authorizationStatus);
+  const {activeCity} = useAppSelector(({APP}) => APP);
+  const {authorizationStatus} = useAppSelector(({USER}) => USER);
+  const {nearbyOffers, comments} = useAppSelector(({DATA}) => DATA);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

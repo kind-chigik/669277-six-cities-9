@@ -1,7 +1,8 @@
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeCity, changeOffers} from '../../store/actions';
+import {changeCity} from '../../store/app-process/app-process';
 import {Hotel} from '../../types/hotel';
+import {memo} from 'react';
 
 type CitiesListProps = {
   cities: string[];
@@ -10,13 +11,11 @@ type CitiesListProps = {
 
 function CitiesList({cities, offers}: CitiesListProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state) => state.city);
+  const {activeCity} = useAppSelector(({APP}) => APP);
   const isCityChecked = (city: string) => city === activeCity ? 'tabs__item--active' : '';
 
   const clickHandler = (city: string, hotels: Hotel[]) => {
-    const offersForCity = hotels.filter((hotel) => hotel.city.name === city);
     dispatch(changeCity(city));
-    dispatch(changeOffers(offersForCity));
   };
 
   return (
@@ -32,4 +31,4 @@ function CitiesList({cities, offers}: CitiesListProps): JSX.Element {
   );
 }
 
-export default CitiesList;
+export default memo(CitiesList);

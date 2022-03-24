@@ -48,6 +48,13 @@ export enum Action {
   Login = 'user/login',
   Logout = 'user/logout',
   AddComment = 'data/addComment',
+  SaveUserLogin = 'user/saveUserLogin',
+}
+
+export enum Process {
+  User = 'USER',
+  Data = 'DATA',
+  App = 'APP',
 }
 
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
