@@ -45,6 +45,16 @@ export function compareRating(element1: Hotel, element2: Hotel): number {
   return result;
 }
 
+export function compareCity(element1: Hotel, element2: Hotel): number {
+  if (element1.city.name < element2.city.name) {
+    return -1;
+  }
+  if (element1.city.name > element2.city.name) {
+    return 1;
+  }
+  return 0;
+}
+
 export function getSortedOffersForCity(offers: Hotel[], type: string): Hotel[] {
   const sourceOffers = offers;
 
@@ -60,4 +70,8 @@ export function getSortedOffersForCity(offers: Hotel[], type: string): Hotel[] {
     default:
       return sourceOffers;
   }
+}
+
+export function getSortedFavoriteItems(offers: Hotel[]) {
+  return offers.sort(compareCity);
 }

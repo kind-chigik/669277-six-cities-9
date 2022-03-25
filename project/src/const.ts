@@ -17,6 +17,7 @@ export enum APIRoute {
   Logout = '/logout',
   Comments = '/comments/',
   Nearby = '/nearby',
+  Favorite = '/favorite',
 }
 
 export enum HTTP_CODE {
@@ -43,11 +44,12 @@ export enum Action {
   LoadComments = 'data/loadComments',
   FetchNearbyOffers = 'data/fetchNearbyOffers',
   LoadNearbyOffers = 'data/loadNearbyOffers',
+  ChangeFavorite = 'data/changeFavorite',
+  AddComment = 'data/addComment',
   RequireAuthorization = 'user/requireAuthorization',
   CheckAuth = 'user/checkAuth',
   Login = 'user/login',
   Logout = 'user/logout',
-  AddComment = 'data/addComment',
   SaveUserLogin = 'user/saveUserLogin',
 }
 

@@ -46,3 +46,8 @@ export type OfferForMap = {
   zoom: number;
   id: number;
 }
+
+export type HotelFavorite = {
+  id: number;
+  status: number;
+};
