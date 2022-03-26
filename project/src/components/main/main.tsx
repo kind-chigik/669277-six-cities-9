@@ -1,26 +1,22 @@
-import OfferList from '../offer-list/offer-list';
-import SortOfferCard from '../sort-offers-card/sort-offers-card';
 import Header from '../header/header';
-import Map from '../map/map';
 import CitiesList from '../cities-list/cities-list';
+import OffersCity from '../offers-city/offers-city';
 import {Hotel} from '../../types/hotel';
 import {useState} from 'react';
-import {getActiveOffer, getCityForMap, getSortedOffersForCity} from '../../utils';
-import {ClassMap, CITIES} from '../../const';
 import {useAppSelector} from '../../hooks';
+import {getActiveOffer, getSortedOffersForCity} from '../../utils';
+import {CITIES} from '../../const';
 
 type OfferProps = {
   offers: Hotel[];
 }
 
-function Main(props: OfferProps): JSX.Element {
+function Main({offers}: OfferProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState(0);
-  const activeOffer = getActiveOffer(props.offers, activeOfferId);
+  const activeOffer = getActiveOffer(offers, activeOfferId);
   const {offerSort, activeCity} = useAppSelector(({APP}) => APP);
-  const offersForActiveCity = props.offers.filter((offer) => offer.city.name === activeCity);
+  const offersForActiveCity = offers.filter((offer) => offer.city.name === activeCity);
   const sortedOffersForActiveCity = getSortedOffersForCity(offersForActiveCity, offerSort);
-
-  const cityForMap = getCityForMap(activeCity);
 
   return (
     <>
@@ -34,22 +30,10 @@ function Main(props: OfferProps): JSX.Element {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <CitiesList cities={CITIES} offers={props.offers}/>
+              <CitiesList cities={CITIES} offers={offers}/>
             </section>
           </div>
-          <div className="cities">
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersForActiveCity.length} places to stay in {activeCity}</b>
-                <SortOfferCard />
-                <OfferList offers = {sortedOffersForActiveCity} activeOfferHandler = {setActiveOfferId}/>
-              </section>
-              <div className="cities__right-section">
-                <Map offers={offersForActiveCity} activeOffer={activeOffer} city={cityForMap} classMap={ClassMap.Cities} />
-              </div>
-            </div>
-          </div>
+          <OffersCity sortedOffersForActiveCity={sortedOffersForActiveCity} activeOfferHandler={setActiveOfferId} activeOffer={activeOffer} activeCity={activeCity} />
         </main>
       </div>
     </>

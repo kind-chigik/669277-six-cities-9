@@ -8,6 +8,7 @@ import {AuthData} from '../types/auth-data';
 import {UserComment} from '../types/user-comment';
 import {saveToken, dropToken} from '../services/token';
 import {errorHandle} from '../services/error-handle';
+import {HotelFavorite} from '../types/hotel';
 
 export const fetchOffersAction = createAsyncThunk(Action.FetchOffers, async () => {
   const {data} = await api.get(APIRoute.Hotels);
@@ -60,6 +61,16 @@ export const addCommentAction = createAsyncThunk(Action.AddComment, async ({comm
   try {
     await api.post(`${APIRoute.Comments}${id}`, {comment, rating});
     store.dispatch(fetchCommentsAction(id));
+  } catch(error) {
+    errorHandle(error);
+  }
+});
+
+export const changeFavorite = createAsyncThunk(Action.ChangeFavorite, async ({id, status}: HotelFavorite) => {
+  try {
+    await api.post(`${APIRoute.Favorite}/${id}/${status}`, {status});
+    const {data} = await api.get(APIRoute.Hotels);
+    store.dispatch(loadOffers(data));
   } catch(error) {
     errorHandle(error);
   }
