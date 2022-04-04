@@ -2,16 +2,18 @@ import {Hotel} from '../../types/hotel';
 import {Link} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks';
 import {changeFavorite} from '../../store/api-actions';
+import {getRatingStars} from '../../utils/utils';
 
 type OfferProps = {
   offer: Hotel;
 }
 
 function FavoritesItem({offer}: OfferProps): JSX.Element {
-  const {id, city, previewImage, price, type, isPremium, isFavorite} = offer;
+  const {id, city, previewImage, price, type, isPremium, isFavorite, rating, title} = offer;
   const {name} = city;
   const offerUrl = `/offer/${id}`;
   const dispatch = useAppDispatch();
+  const starsRating = getRatingStars(rating, true);
 
   const bookmarkClickHandler = () => {
     const status = Number(!isFavorite);
@@ -53,12 +55,12 @@ function FavoritesItem({offer}: OfferProps): JSX.Element {
             </div>
             <div className="place-card__rating rating">
               <div className="place-card__stars rating__stars">
-                <span style={{width: '80%'}}></span>
+                <span style={{width: starsRating}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
             </div>
             <h2 className="place-card__name">
-              <Link to={offerUrl}>Nice, cozy, warm big bed apartment</Link>
+              <Link to={offerUrl}>{title}</Link>
             </h2>
             <p className="place-card__type">{type}</p>
           </div>

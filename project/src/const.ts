@@ -68,6 +68,14 @@ export const INITIAL_CITY = {
   zoom: 10,
 };
 
+export const INITIAL_STATE_MOCK = {
+  offers: [],
+  comments: [],
+  nearbyOffers: [],
+  isDataLoaded: true,
+  isCommentsLoaded: true,
+};
+
 export enum SortType {
   Popular = 'Popular',
   PriceLowToHigh = 'Price: low to high',

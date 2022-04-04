@@ -3,7 +3,7 @@ import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import {Hotel} from '../../types/hotel';
-import {getSortedFavoriteItems} from '../../utils';
+import {getSortedFavoriteItems} from '../../utils/utils';
 
 type OfferProps = {
   offers: Hotel[];

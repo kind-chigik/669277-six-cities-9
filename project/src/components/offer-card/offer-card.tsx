@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {AuthorizationStatus, AppRoute} from '../../const';
 import {useNavigate} from 'react-router-dom';
 import {changeFavorite} from '../../store/api-actions';
+import {getRatingStars} from '../../utils/utils';
 
 type OfferCardProps = {
   offer: Hotel;
@@ -11,10 +12,11 @@ type OfferCardProps = {
 }
 
 function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
-  const {id, price, title, type, previewImage, isPremium, isFavorite} = offer;
+  const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = offer;
   const {authorizationStatus} = useAppSelector(({USER}) => USER);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const starsRating = getRatingStars(rating, true);
 
   const mouseEnterHandler = () => {
     if (activeOfferHandler) {
@@ -56,7 +58,7 @@ function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: starsRating}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

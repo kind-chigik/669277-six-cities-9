@@ -4,7 +4,7 @@ import OffersCity from '../offers-city/offers-city';
 import {Hotel} from '../../types/hotel';
 import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
-import {getActiveOffer, getSortedOffersForCity} from '../../utils';
+import {getActiveOffer, getSortedOffersForCity} from '../../utils/utils';
 import {CITIES} from '../../const';
 
 type OfferProps = {

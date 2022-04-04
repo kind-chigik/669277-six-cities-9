@@ -3,7 +3,7 @@ import OfferList from '../offer-list/offer-list';
 import Map from '../map/map';
 import MainEmpty from '../main-empty/main-empty';
 import {Hotel, OfferForMap} from '../../types/hotel';
-import {getCityForMap} from '../../utils';
+import {getCityForMap} from '../../utils/utils';
 import {ClassMap} from '../../const';
 
 type OffersCityProps = {

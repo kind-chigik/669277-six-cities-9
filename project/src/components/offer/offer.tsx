@@ -7,10 +7,12 @@ import NotFound from '../not-found/not-found';
 import {Hotel} from '../../types/hotel';
 import {useParams} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
+import {useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import {getActiveOffer, getCityForMap} from '../../utils';
-import {ClassMap, AuthorizationStatus} from '../../const';
-import {fetchCommentsAction, fetchNearbyOffersAction} from '../../store/api-actions';
+import {getActiveOffer, getCityForMap} from '../../utils/utils';
+import {ClassMap, AuthorizationStatus, AppRoute} from '../../const';
+import {fetchCommentsAction, fetchNearbyOffersAction, changeFavorite} from '../../store/api-actions';
+import {getRatingStars} from '../../utils/utils';
 
 type OfferProps = {
   offers: Hotel[];
@@ -25,6 +27,7 @@ function Offer({offers}: OfferProps): JSX.Element {
   const {authorizationStatus} = useAppSelector(({USER}) => USER);
   const {nearbyOffers, comments} = useAppSelector(({DATA}) => DATA);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (offer.length !== 0) {
@@ -38,12 +41,22 @@ function Offer({offers}: OfferProps): JSX.Element {
     return <NotFound />;
   }
 
-  const {images, isPremium, title, type, bedrooms, maxAdults, price, goods, host, description} = offer[0];
+  const {images, isPremium, isFavorite, title, type, bedrooms, maxAdults, price, goods, host, description, rating} = offer[0];
   const {name, isPro, avatarUrl} = host;
 
   const activeOffer = getActiveOffer(nearbyOffers, activeOfferId);
   const cityForMap = getCityForMap(activeCity);
   const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const starsRating = getRatingStars(rating);
+  const commentsCount = comments.length < 10 ? comments.length : 10;
+
+  const bookmarkClickHandler = () => {
+    if (authorizationStatus === AuthorizationStatus.NoAuth) {
+      return navigate(AppRoute.Login);
+    }
+    const status = Number(!isFavorite);
+    dispatch(changeFavorite({id: currentOfferId, status: status}));
+  };
 
   return (
     <div className="page">
@@ -53,11 +66,15 @@ function Offer({offers}: OfferProps): JSX.Element {
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                images.map((image: string) => (
-                  <div key={image} className="property__image-wrapper">
-                    <img className="property__image" src={image} alt="Photo studio" />
-                  </div>
-                ))
+                images.map((image: string, i: number) => {
+                  if (i < 6) {
+                    return (
+                      <div key={image} className="property__image-wrapper">
+                        <img className="property__image" src={image} alt="Photo studio" />
+                      </div>
+                    );
+                  }
+                })
               }
             </div>
           </div>
@@ -68,7 +85,7 @@ function Offer({offers}: OfferProps): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button className={`property__bookmark-button button ${isFavorite && 'property__bookmark-button--active'}`} type="button" onClick={bookmarkClickHandler}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -77,10 +94,10 @@ function Offer({offers}: OfferProps): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: starsRating}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
@@ -112,7 +129,7 @@ function Offer({offers}: OfferProps): JSX.Element {
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={`property__avatar-wrapper user__avatar-wrapper ${isPro && 'property__avatar-wrapper--pro'}`}>
                     <img className="property__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
@@ -127,7 +144,7 @@ function Offer({offers}: OfferProps): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{commentsCount}</span></h2>
                 <ReviewList reviews={comments} />
                 {isUserAuth && <ReviewForm offerId={offer[0].id}/>}
               </section>
