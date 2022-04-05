@@ -59,13 +59,21 @@ export enum Process {
   App = 'APP',
 }
 
-export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+export const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export const INITIAL_CITY = {
   title: 'Paris',
   lat: 48.8534,
   lng: 2.3488,
   zoom: 10,
+};
+
+export const INITIAL_STATE_MOCK = {
+  offers: [],
+  comments: [],
+  nearbyOffers: [],
+  isDataLoaded: true,
+  isCommentsLoaded: true,
 };
 
 export enum SortType {
@@ -75,3 +83,30 @@ export enum SortType {
   TopRatedFirst = 'Top rated first',
 }
 
+export const ratingStars = [
+  {
+    id: '5-stars',
+    value: 5,
+    title: 'perfect',
+  },
+  {
+    id: '4-stars',
+    value: 4,
+    title: 'good',
+  },
+  {
+    id: '3-stars',
+    value: 3,
+    title: 'not bad',
+  },
+  {
+    id: '2-stars',
+    value: 2,
+    title: 'badly',
+  },
+  {
+    id: '1-stars',
+    value: 1,
+    title: 'terribly',
+  },
+];

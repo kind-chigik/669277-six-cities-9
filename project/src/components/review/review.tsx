@@ -1,12 +1,15 @@
 import {UserReview} from '../../types/user-review';
+import {getRatingStars} from '../../utils/utils';
+import moment from 'moment';
 
 type reviewsProps = {
   review: UserReview;
 }
 
 function Review ({review}: reviewsProps): JSX.Element {
-  const {user, comment} = review;
+  const {user, comment, rating, date} = review;
   const {name, avatarUrl} = user;
+  const starsRating = getRatingStars(rating);
 
   return (
     <li className="reviews__item">
@@ -21,14 +24,14 @@ function Review ({review}: reviewsProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: starsRating}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
+        <time className="reviews__time" dateTime={moment(date).format('MMMM YYYY')}>{moment(date).format('MMMM YYYY')}</time>
       </div>
     </li>
   );

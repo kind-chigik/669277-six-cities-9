@@ -3,7 +3,7 @@ import {City} from '../../types/city';
 import {useRef, useEffect} from 'react';
 import useMap from '../../hooks/use-map';
 import 'leaflet/dist/leaflet.css';
-import leaflet from 'leaflet';
+import leaflet, {LayerGroup} from 'leaflet';
 
 type mapProps = {
   offers: Hotel[];
@@ -37,18 +37,26 @@ function Map({offers, activeOffer, city, classMap}: mapProps): JSX.Element {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
+    let layerGroup: LayerGroup;
+
     if (map) {
-      offers.forEach((offer) => {
-        leaflet.marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude,
-        }, {
-          icon: getIcon(offer.id, activeOffer),
-        })
-          .addTo(map);
-      });
+      const markers = offers.map((offer) => leaflet.marker({
+        lat: offer.location.latitude,
+        lng: offer.location.longitude,
+      }, {
+        icon: getIcon(offer.id, activeOffer),
+      }));
+      layerGroup = leaflet.layerGroup(markers);
+      layerGroup.addTo(map);
       map.setView([city.lat, city.lng]);
     }
+
+    return () => {
+      if (map) {
+        map.removeLayer(layerGroup);
+      }
+    };
+
   }, [map, offers, activeOffer, city]);
 
   return (

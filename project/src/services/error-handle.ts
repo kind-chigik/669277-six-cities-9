@@ -17,6 +17,9 @@ function errorHandle(error: unknown): void {
       case HTTP_CODE.NOT_FOUND:
         toast.error(response.data.error);
         break;
+      case HTTP_CODE.BAD_REQUEST:
+        toast.error(response.data.error);
+        break;
     }
   }
 }

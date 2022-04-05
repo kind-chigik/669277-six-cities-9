@@ -4,8 +4,8 @@ import OffersCity from '../offers-city/offers-city';
 import {Hotel} from '../../types/hotel';
 import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
-import {getActiveOffer, getSortedOffersForCity} from '../../utils';
-import {CITIES} from '../../const';
+import {getActiveOffer, getSortedOffersForCity} from '../../utils/utils';
+import {cities} from '../../const';
 
 type OfferProps = {
   offers: Hotel[];
@@ -30,7 +30,7 @@ function Main({offers}: OfferProps): JSX.Element {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <CitiesList cities={CITIES} offers={offers}/>
+              <CitiesList cities={cities} offers={offers}/>
             </section>
           </div>
           <OffersCity sortedOffersForActiveCity={sortedOffersForActiveCity} activeOfferHandler={setActiveOfferId} activeOffer={activeOffer} activeCity={activeCity} />

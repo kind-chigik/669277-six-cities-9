@@ -1,8 +1,16 @@
-import {Hotel} from './types/hotel';
-import {citiesForMap} from './mocks/cities';
-import {City} from './types/city';
-import {OfferForMap} from './types/hotel';
-import {INITIAL_CITY, SortType} from './const';
+import {Hotel} from '../types/hotel';
+import {citiesForMap} from '../mocks/cities';
+import {City} from '../types/city';
+import {OfferForMap} from '../types/hotel';
+import {UserReview} from '../types/user-review';
+import {INITIAL_CITY, SortType} from '../const';
+
+export function getRatingStars(rating: number, isCard?: boolean): string {
+  if (isCard) {
+    return `${Math.round(rating) * 20}%`;
+  }
+  return `${rating * 20}%`;
+}
 
 export function getActiveOffer(offers: Hotel[], id: number): OfferForMap | null {
   const activeOffer = offers.find((offer) => offer.id === id);
@@ -55,6 +63,16 @@ export function compareCity(element1: Hotel, element2: Hotel): number {
   return 0;
 }
 
+export function compareDate(element1: UserReview, element2: UserReview): number {
+  if (element1.date > element2.date) {
+    return -1;
+  }
+  if (element1.date < element2.date) {
+    return 1;
+  }
+  return 0;
+}
+
 export function getSortedOffersForCity(offers: Hotel[], type: string): Hotel[] {
   const sourceOffers = offers;
 
@@ -74,4 +92,11 @@ export function getSortedOffersForCity(offers: Hotel[], type: string): Hotel[] {
 
 export function getSortedFavoriteItems(offers: Hotel[]) {
   return offers.sort(compareCity);
+}
+
+export function getSortedReviews(reviews: UserReview[]) {
+  const reviewsCopy = [...reviews];
+
+  const result = reviewsCopy.sort(compareDate);
+  return result;
 }
