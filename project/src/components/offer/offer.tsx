@@ -8,7 +8,7 @@ import {Hotel} from '../../types/hotel';
 import {useParams} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {useNavigate} from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {getActiveOffer, getCityForMap} from '../../utils/utils';
 import {ClassMap, AuthorizationStatus, AppRoute} from '../../const';
 import {fetchCommentsAction, fetchNearbyOffersAction, changeFavorite} from '../../store/api-actions';
@@ -18,14 +18,16 @@ type OfferProps = {
   offers: Hotel[];
 }
 
+let offersForMap: Hotel[] = [];
+
 function Offer({offers}: OfferProps): JSX.Element {
-  const [activeOfferId, setActiveOfferId] = useState(0);
   const offerId = useParams();
   const currentOfferId = Number(offerId.id);
 
   const {activeCity} = useAppSelector(({APP}) => APP);
   const {authorizationStatus} = useAppSelector(({USER}) => USER);
   const {nearbyOffers, comments} = useAppSelector(({DATA}) => DATA);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -41,10 +43,13 @@ function Offer({offers}: OfferProps): JSX.Element {
     return <NotFound />;
   }
 
-  const {images, isPremium, isFavorite, title, type, bedrooms, maxAdults, price, goods, host, description, rating} = offer[0];
+  const {id, images, isPremium, isFavorite, title, type, bedrooms, maxAdults, price, goods, host, description, rating} = offer[0];
   const {name, isPro, avatarUrl} = host;
 
-  const activeOffer = getActiveOffer(nearbyOffers, activeOfferId);
+  const activeOffer = getActiveOffer(offers, id);
+  offersForMap = [...nearbyOffers];
+  offersForMap.push(offer[0]);
+
   const cityForMap = getCityForMap(activeCity);
   const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
   const starsRating = getRatingStars(rating);
@@ -150,13 +155,13 @@ function Offer({offers}: OfferProps): JSX.Element {
               </section>
             </div>
           </div>
-          <Map offers={nearbyOffers} activeOffer={activeOffer} city={cityForMap} classMap={ClassMap.Property}/>
+          <Map offers={offersForMap} activeOffer={activeOffer} city={cityForMap} classMap={ClassMap.Property}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearbyOffers.map((nearOffer) => <OfferCard key={nearOffer.id} offer = {nearOffer} activeOfferHandler = {setActiveOfferId}/>)}
+              {nearbyOffers.map((nearOffer) => <OfferCard key={nearOffer.id} offer={nearOffer} />)}
             </div>
           </section>
         </div>

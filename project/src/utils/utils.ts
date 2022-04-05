@@ -63,19 +63,6 @@ export function compareCity(element1: Hotel, element2: Hotel): number {
   return 0;
 }
 
-/* export function compareDate(element1: UserReview, element2: UserReview): number {
-  const date1 = new Date(element1.date);
-  const date2 = new Date(element2.date);
-
-  if (date1 < date2) {
-    return 1;
-  }
-  if (date1 > date2) {
-    return 1;
-  }
-  return 0;
-} */
-
 export function compareDate(element1: UserReview, element2: UserReview): number {
   if (element1.date > element2.date) {
     return -1;

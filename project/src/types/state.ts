@@ -22,5 +22,6 @@ export type DataProcess = {
   comments: UserReview[],
   nearbyOffers: Hotel[],
   isDataLoaded: boolean,
+  isCommentsLoaded: boolean,
 };
 

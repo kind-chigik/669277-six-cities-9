@@ -5,7 +5,7 @@ import {INITIAL_STATE_MOCK} from '../../const';
 
 describe('Reducer: dataProcess', () => {
   it('should return initial state without additional parameters', () => {
-    expect(dataProcess.reducer(undefined, {type: 'UNKNOWN_ACTION'})).toEqual({offers: [], comments: [], nearbyOffers: [], isDataLoaded: false});
+    expect(dataProcess.reducer(undefined, {type: 'UNKNOWN_ACTION'})).toEqual({offers: [], comments: [], nearbyOffers: [], isDataLoaded: false, isCommentsLoaded: true});
   });
 
   it('should update offers by load offers', () => {
@@ -14,6 +14,7 @@ describe('Reducer: dataProcess', () => {
       comments: [],
       nearbyOffers: [],
       isDataLoaded: false,
+      isCommentsLoaded: true,
     };
 
     expect(dataProcess.reducer(state, loadOffers(offers))).toEqual(
@@ -22,6 +23,7 @@ describe('Reducer: dataProcess', () => {
         comments: [],
         nearbyOffers: [],
         isDataLoaded: true,
+        isCommentsLoaded: true,
       });
   });
 
@@ -31,6 +33,7 @@ describe('Reducer: dataProcess', () => {
       comments,
       nearbyOffers: [],
       isDataLoaded: true,
+      isCommentsLoaded: true,
     });
   });
 
@@ -43,6 +46,7 @@ describe('Reducer: dataProcess', () => {
         comments: [],
         nearbyOffers,
         isDataLoaded: true,
+        isCommentsLoaded: true,
       });
   });
 });

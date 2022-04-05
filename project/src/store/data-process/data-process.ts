@@ -7,6 +7,7 @@ const initialState: DataProcess = {
   comments: [],
   nearbyOffers: [],
   isDataLoaded: false,
+  isCommentsLoaded: true,
 };
 
 export const dataProcess = createSlice({
@@ -19,6 +20,10 @@ export const dataProcess = createSlice({
     },
     loadComments: (state, action) => {
       state.comments = action.payload;
+      state.isCommentsLoaded = true;
+    },
+    changeStatusLoad: (state) => {
+      state.isCommentsLoaded = false;
     },
     loadNearbyOffers: (state, action) => {
       state.nearbyOffers = action.payload;
@@ -26,4 +31,4 @@ export const dataProcess = createSlice({
   },
 });
 
-export const {loadOffers, loadComments, loadNearbyOffers} = dataProcess.actions;
+export const {loadOffers, loadComments, loadNearbyOffers, changeStatusLoad} = dataProcess.actions;
