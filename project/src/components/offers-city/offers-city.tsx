@@ -4,7 +4,7 @@ import Map from '../map/map';
 import MainEmpty from '../main-empty/main-empty';
 import {Hotel, OfferForMap} from '../../types/hotel';
 import {getCityForMap} from '../../utils/utils';
-import {ClassMap} from '../../const';
+import {ClassMap, OFFERS_COUNT} from '../../const';
 
 type OffersCityProps = {
   sortedOffersForActiveCity: Hotel[];
@@ -14,7 +14,7 @@ type OffersCityProps = {
 }
 
 function OffersCity({sortedOffersForActiveCity, activeOfferHandler, activeOffer, activeCity}: OffersCityProps) {
-  if (sortedOffersForActiveCity.length === 0) {
+  if (sortedOffersForActiveCity.length === OFFERS_COUNT) {
     return <MainEmpty />;
   }
 

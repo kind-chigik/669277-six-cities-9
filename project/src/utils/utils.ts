@@ -1,9 +1,8 @@
 import {Hotel} from '../types/hotel';
-import {citiesForMap} from '../mocks/cities';
 import {City} from '../types/city';
 import {OfferForMap} from '../types/hotel';
 import {UserReview} from '../types/user-review';
-import {INITIAL_CITY, SortType} from '../const';
+import {citiesForMap, INITIAL_CITY, SortType} from '../const';
 
 export function getRatingStars(rating: number, isCard?: boolean): string {
   if (isCard) {

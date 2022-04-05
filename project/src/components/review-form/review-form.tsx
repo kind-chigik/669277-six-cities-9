@@ -2,7 +2,7 @@ import {useState, ChangeEvent, FormEvent, Fragment} from 'react';
 import {addCommentAction} from '../../store/api-actions';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeStatusLoad} from '../../store/data-process/data-process';
-import {ratingStars} from '../../const';
+import {ratingStars, LimitComment} from '../../const';
 
 type ReviewFormProps = {
   offerId: number;
@@ -13,7 +13,7 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
   const [textReview, setTextReview] = useState('');
   const {isCommentsLoaded} = useAppSelector(({DATA}) => DATA);
   const dispatch = useAppDispatch();
-  const isReviewCorrect = textReview.length > 50 && textReview.length < 300 && rating > 0;
+  const isReviewCorrect = textReview.length > LimitComment.MinLength && textReview.length < LimitComment.MaxLength && rating > LimitComment.MinRating;
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

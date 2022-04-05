@@ -44,7 +44,7 @@ function HeaderAuthorization(props: LoginProps): JSX.Element {
     <nav className="header__nav">
       <ul className="header__nav-list">
         <li className="header__nav-item">
-          <Link className="header__nav-link" to="/login">
+          <Link className="header__nav-link" to={AppRoute.Login}>
             <span className="header__signout">Sign in</span>
           </Link>
         </li>

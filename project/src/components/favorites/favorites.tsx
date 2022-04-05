@@ -4,6 +4,7 @@ import Header from '../header/header';
 import Footer from '../footer/footer';
 import {Hotel} from '../../types/hotel';
 import {getSortedFavoriteItems} from '../../utils/utils';
+import {OFFERS_COUNT} from '../../const';
 
 type OfferProps = {
   offers: Hotel[];
@@ -11,7 +12,7 @@ type OfferProps = {
 
 function Favorites({offers}: OfferProps): JSX.Element {
   const favoriteItems = offers.filter((offer) => offer.isFavorite);
-  if (favoriteItems.length === 0) {
+  if (favoriteItems.length === OFFERS_COUNT) {
     return (
       <div className="page">
         <Header />

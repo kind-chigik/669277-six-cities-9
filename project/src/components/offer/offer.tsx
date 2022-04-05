@@ -10,7 +10,7 @@ import {useAppSelector, useAppDispatch} from '../../hooks';
 import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import {getActiveOffer, getCityForMap} from '../../utils/utils';
-import {ClassMap, AuthorizationStatus, AppRoute} from '../../const';
+import {ClassMap, AuthorizationStatus, AppRoute, OFFERS_COUNT, MAX_COMMENTS} from '../../const';
 import {fetchCommentsAction, fetchNearbyOffersAction, changeFavorite} from '../../store/api-actions';
 import {getRatingStars} from '../../utils/utils';
 
@@ -32,28 +32,29 @@ function Offer({offers}: OfferProps): JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (offer.length !== 0) {
+    if (offer.length !== OFFERS_COUNT) {
       dispatch(fetchCommentsAction(currentOfferId));
       dispatch(fetchNearbyOffersAction(currentOfferId));
     }
   }, [currentOfferId]);
 
   const offer = offers.filter((element) => element.id === currentOfferId);
-  if (offer.length === 0) {
+  if (offer.length === OFFERS_COUNT) {
     return <NotFound />;
   }
 
-  const {id, images, isPremium, isFavorite, title, type, bedrooms, maxAdults, price, goods, host, description, rating} = offer[0];
+  const currentOffer = offer[0];
+  const {id, images, isPremium, isFavorite, title, type, bedrooms, maxAdults, price, goods, host, description, rating} = currentOffer;
   const {name, isPro, avatarUrl} = host;
 
   const activeOffer = getActiveOffer(offers, id);
   offersForMap = [...nearbyOffers];
-  offersForMap.push(offer[0]);
+  offersForMap.push(currentOffer);
 
   const cityForMap = getCityForMap(activeCity);
   const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
   const starsRating = getRatingStars(rating);
-  const commentsCount = comments.length < 10 ? comments.length : 10;
+  const commentsCount = comments.length < MAX_COMMENTS ? comments.length : MAX_COMMENTS;
 
   const bookmarkClickHandler = () => {
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
@@ -151,7 +152,7 @@ function Offer({offers}: OfferProps): JSX.Element {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{commentsCount}</span></h2>
                 <ReviewList reviews={comments} />
-                {isUserAuth && <ReviewForm offerId={offer[0].id}/>}
+                {isUserAuth && <ReviewForm offerId={currentOffer.id}/>}
               </section>
             </div>
           </div>

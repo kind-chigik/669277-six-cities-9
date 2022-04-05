@@ -61,6 +61,45 @@ export enum Process {
 
 export const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
+export const citiesForMap = [
+  {
+    title: 'Paris',
+    lat: 48.8534,
+    lng: 2.3488,
+    zoom: 10,
+  },
+  {
+    title: 'Cologne',
+    lat: 50.938361,
+    lng: 6.959974,
+    zoom: 10,
+  },
+  {
+    title: 'Brussels',
+    lat: 50.8504,
+    lng: 4.34878,
+    zoom: 10,
+  },
+  {
+    title: 'Amsterdam',
+    lat: 52.374,
+    lng: 4.88969,
+    zoom: 10,
+  },
+  {
+    title: 'Hamburg',
+    lat: 53.5753,
+    lng: 10.0153,
+    zoom: 10,
+  },
+  {
+    title: 'Dusseldorf',
+    lat: 51.2217,
+    lng: 6.77616,
+    zoom: 10,
+  },
+];
+
 export const INITIAL_CITY = {
   title: 'Paris',
   lat: 48.8534,
@@ -110,3 +149,12 @@ export const ratingStars = [
     title: 'terribly',
   },
 ];
+
+export const OFFERS_COUNT = 0;
+export const MAX_COMMENTS = 10;
+
+export enum LimitComment {
+  MaxLength = 300,
+  MinLength = 50,
+  MinRating = 0,
+}

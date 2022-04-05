@@ -1,5 +1,6 @@
 import Header from '../header/header';
 import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
 
 function NotFound(): JSX.Element {
   return (
@@ -12,7 +13,7 @@ function NotFound(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="/">
+              <Link className="locations__item-link" to={AppRoute.Root}>
                 <span>Go to the main page</span>
               </Link>
             </div>
