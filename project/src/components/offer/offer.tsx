@@ -5,14 +5,15 @@ import ReviewList from '../review-list/review-list';
 import Map from '../map/map';
 import NotFound from '../not-found/not-found';
 import {Hotel} from '../../types/hotel';
-import {useParams} from 'react-router-dom';
-import {useAppSelector, useAppDispatch} from '../../hooks';
-import {useNavigate} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
-import {getActiveOffer, getCityForMap} from '../../utils/utils';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {getActiveOffer, getCityForMap, getRatingStars, transformFirstLetter} from '../../utils/utils';
 import {ClassMap, AuthorizationStatus, AppRoute, OFFERS_COUNT, MAX_COMMENTS} from '../../const';
 import {fetchCommentsAction, fetchNearbyOffersAction, changeFavorite} from '../../store/api-actions';
-import {getRatingStars} from '../../utils/utils';
+import {getActiveCity} from '../../store/app-process/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {getNearbyOffers, getComments} from '../../store/data-process/selectors';
 
 type OfferProps = {
   offers: Hotel[];
@@ -24,9 +25,10 @@ function Offer({offers}: OfferProps): JSX.Element {
   const offerId = useParams();
   const currentOfferId = Number(offerId.id);
 
-  const {activeCity} = useAppSelector(({APP}) => APP);
-  const {authorizationStatus} = useAppSelector(({USER}) => USER);
-  const {nearbyOffers, comments} = useAppSelector(({DATA}) => DATA);
+  const activeCity = useAppSelector(getActiveCity);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const comments = useAppSelector(getComments);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -52,11 +54,13 @@ function Offer({offers}: OfferProps): JSX.Element {
   offersForMap.push(currentOffer);
 
   const cityForMap = getCityForMap(activeCity);
+  const convertedType = transformFirstLetter(type);
   const isUserAuth = authorizationStatus === AuthorizationStatus.Auth;
   const starsRating = getRatingStars(rating);
   const commentsCount = comments.length < MAX_COMMENTS ? comments.length : MAX_COMMENTS;
+  const isBookmarkActive = authorizationStatus === AuthorizationStatus.Auth ? isFavorite : false;
 
-  const bookmarkClickHandler = () => {
+  const handleBookmarkClick = () => {
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       return navigate(AppRoute.Login);
     }
@@ -72,16 +76,13 @@ function Offer({offers}: OfferProps): JSX.Element {
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                images.map((image: string, i: number) => {
-                  if (i < 6) {
-                    return (
-                      <div key={image} className="property__image-wrapper">
-                        <img className="property__image" src={image} alt="Photo studio" />
-                      </div>
-                    );
-                  }
-                })
+                images.slice(0, 6).map((image: string) => (
+                  <div key={image} className="property__image-wrapper">
+                    <img className="property__image" src={image} alt="Photo studio" />
+                  </div>
+                ))
               }
+
             </div>
           </div>
           <div className="property__container container">
@@ -91,7 +92,7 @@ function Offer({offers}: OfferProps): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={`property__bookmark-button button ${isFavorite && 'property__bookmark-button--active'}`} type="button" onClick={bookmarkClickHandler}>
+                <button className={`property__bookmark-button button ${isBookmarkActive && 'property__bookmark-button--active'}`} type="button" onClick={handleBookmarkClick}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -107,7 +108,7 @@ function Offer({offers}: OfferProps): JSX.Element {
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {type}
+                  {convertedType}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   {bedrooms} Bedrooms
@@ -162,7 +163,7 @@ function Offer({offers}: OfferProps): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearbyOffers.map((nearOffer) => <OfferCard key={nearOffer.id} offer={nearOffer} />)}
+              {nearbyOffers.map((nearOffer) => <OfferCard key={nearOffer.id} offer={nearOffer} currentOfferId={currentOffer.id} />)}
             </div>
           </section>
         </div>

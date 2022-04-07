@@ -26,6 +26,8 @@ export enum HTTP_CODE {
   NOT_FOUND = 404,
 }
 
+export const STATUS_LOAD_ERROR = 'error';
+
 export const LAYER_MAP_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 export const LAYER_MAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
@@ -35,22 +37,14 @@ export enum ClassMap {
 }
 
 export enum Action {
-  ChangeCity = 'main/changeCity',
-  ChangeOffers = 'main/changeOffers',
-  ChangeOffersSort = 'main/changeOffersSort',
-  LoadOffers = 'data/loadOffers',
   FetchOffers = 'data/fetchOffers',
   FetchComments = 'data/fetchComments',
-  LoadComments = 'data/loadComments',
   FetchNearbyOffers = 'data/fetchNearbyOffers',
-  LoadNearbyOffers = 'data/loadNearbyOffers',
   ChangeFavorite = 'data/changeFavorite',
   AddComment = 'data/addComment',
-  RequireAuthorization = 'user/requireAuthorization',
   CheckAuth = 'user/checkAuth',
   Login = 'user/login',
   Logout = 'user/logout',
-  SaveUserLogin = 'user/saveUserLogin',
 }
 
 export enum Process {
@@ -112,7 +106,7 @@ export const INITIAL_STATE_MOCK = {
   comments: [],
   nearbyOffers: [],
   isDataLoaded: true,
-  isCommentsLoaded: true,
+  statusLoadComments: true,
 };
 
 export enum SortType {
@@ -158,3 +152,7 @@ export enum LimitComment {
   MinLength = 50,
   MinRating = 0,
 }
+
+export const RE_FOR_EMAIL = /\S+@\S+\.\S+/;
+export const RE_FOR_NUMBER = /\d{1,}/;
+export const RE_FOR_LETTER = /[A-Za-zА-Яа-яЁё]{1,}/;

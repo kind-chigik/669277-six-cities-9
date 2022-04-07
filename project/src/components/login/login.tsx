@@ -1,18 +1,24 @@
 import Header from '../header/header';
-import {Link} from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import {FormEvent, ChangeEvent, useState} from 'react';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
-import {saveUserLogin} from '../../store/app-process/app-process';
-import {useAppSelector} from '../../hooks';
-import {AuthorizationStatus, AppRoute} from '../../const';
-import {Navigate} from 'react-router-dom';
+import {saveUserLogin, changeCity} from '../../store/app-process/app-process';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {AuthorizationStatus, AppRoute, RE_FOR_EMAIL, RE_FOR_NUMBER, RE_FOR_LETTER} from '../../const';
+import {getRandomCity} from '../../utils/utils';
 
 function Login(): JSX.Element {
   const [inputEmail, setInpuEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
-  const {authorizationStatus} = useAppSelector(({USER}) => USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
+
+  const isEmailCorrect = RE_FOR_EMAIL.test(inputEmail);
+  const isPasswordContainNumber = RE_FOR_NUMBER.test(inputPassword);
+  const isPasswordContainLetter = RE_FOR_LETTER.test(inputPassword);
+
+  const randomCity = getRandomCity();
 
   const inputEmailHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.currentTarget.value;
@@ -24,10 +30,14 @@ function Login(): JSX.Element {
     setInputPassword(value);
   };
 
+  const clickHandle = () => {
+    dispatch(changeCity(randomCity));
+  };
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (inputEmail !== '' && inputPassword !== '') {
+    if (isEmailCorrect && isPasswordContainNumber && isPasswordContainLetter) {
       dispatch(loginAction({email: inputEmail, password: inputPassword}));
       dispatch(saveUserLogin(inputEmail));
     }
@@ -57,9 +67,9 @@ function Login(): JSX.Element {
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <Link className="locations__item-link" to="#">
-                <span>Amsterdam</span>
+            <div className="locations__item" onClick={clickHandle}>
+              <Link className="locations__item-link" to={AppRoute.Root}>
+                <span>{randomCity}</span>
               </Link>
             </div>
           </section>

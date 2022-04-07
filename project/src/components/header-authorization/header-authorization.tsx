@@ -2,17 +2,19 @@ import {Link} from 'react-router-dom';
 import {AuthorizationStatus, AppRoute} from '../../const';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {logoutAction} from '../../store/api-actions';
+import {getUserLogin} from '../../store/app-process/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 type LoginProps = {
   isPageLogin?: boolean;
 }
 
 function HeaderAuthorization(props: LoginProps): JSX.Element {
-  const {authorizationStatus} = useAppSelector(({USER}) => USER);
-  const {userLogin} = useAppSelector(({APP}) => APP);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userLogin = useAppSelector(getUserLogin);
   const dispatch = useAppDispatch();
 
-  const logoutHandler = () => dispatch(logoutAction());
+  const handleLogoutClick = () => dispatch(logoutAction());
 
   if (props.isPageLogin) {
     return (
@@ -32,7 +34,7 @@ function HeaderAuthorization(props: LoginProps): JSX.Element {
             </Link>
           </li>
           <li className="header__nav-item">
-            <Link className="header__nav-link" to="#" onClick={logoutHandler}>
+            <Link className="header__nav-link" to="#" onClick={handleLogoutClick}>
               <span className="header__signout">Sign out</span>
             </Link>
           </li>

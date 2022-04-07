@@ -1,20 +1,20 @@
-import {SortType} from '../../const';
-import {useState} from 'react';
+import {useState, memo} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeOffersSort} from '../../store/app-process/app-process';
-import {memo} from 'react';
+import {getOfferSort} from '../../store/app-process/selectors';
+import {SortType} from '../../const';
 
 function SortOfferCard(): JSX.Element {
   const [isListSortOpened, setIsListSortOpened] = useState(false);
   const dispatch = useAppDispatch();
-  const {offerSort} = useAppSelector(({APP}) => APP);
-  const SortTypes = Object.values(SortType);
+  const offerSort = useAppSelector(getOfferSort);
+  const sortTypes = Object.values(SortType);
 
-  const clickSortListHandler = () => {
+  const handleSortListClick = () => {
     setIsListSortOpened(!isListSortOpened);
   };
 
-  const clickSortTypeHandler = (sortType: string) => {
+  const handleSortTypeClick = (sortType: string) => {
     dispatch(changeOffersSort(sortType));
     setIsListSortOpened(!isListSortOpened);
   };
@@ -22,14 +22,14 @@ function SortOfferCard(): JSX.Element {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0} onClick={clickSortListHandler}>
+      <span className="places__sorting-type" tabIndex={0} onClick={handleSortListClick}>
         {offerSort}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${isListSortOpened && 'places__options--opened'}`}>
-        {SortTypes.map((sortType) => <li key={sortType} className={`places__option ${(offerSort === sortType) && 'places__option--active'}`} tabIndex={0} onClick={() => clickSortTypeHandler(sortType)} >{sortType}</li>)}
+        {sortTypes.map((sortType) => <li key={sortType} className={`places__option ${(offerSort === sortType) && 'places__option--active'}`} tabIndex={0} onClick={() => handleSortTypeClick(sortType)} >{sortType}</li>)}
       </ul>
     </form>
   );

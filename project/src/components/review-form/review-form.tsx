@@ -1,7 +1,8 @@
 import {useState, ChangeEvent, FormEvent, Fragment} from 'react';
 import {addCommentAction} from '../../store/api-actions';
-import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeStatusLoad} from '../../store/data-process/data-process';
+import {getStatusLoadComments} from '../../store/data-process/selectors';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {ratingStars, LimitComment} from '../../const';
 
 type ReviewFormProps = {
@@ -11,7 +12,7 @@ type ReviewFormProps = {
 function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
   const [rating, setRating] = useState(0);
   const [textReview, setTextReview] = useState('');
-  const {isCommentsLoaded} = useAppSelector(({DATA}) => DATA);
+  const statusLoadComments = useAppSelector(getStatusLoadComments);
   const dispatch = useAppDispatch();
   const isReviewCorrect = textReview.length > LimitComment.MinLength && textReview.length < LimitComment.MaxLength && rating > LimitComment.MinRating;
 
@@ -19,16 +20,14 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
     evt.preventDefault();
 
     if (isReviewCorrect) {
-      dispatch(changeStatusLoad());
-      dispatch(addCommentAction({comment: textReview, rating: rating, id: offerId}));
-      setTextReview('');
-      setRating(0);
+      dispatch(changeStatusLoad(false));
+      dispatch(addCommentAction({comment: textReview, rating: rating, id: offerId, clearText: setTextReview, clearRating: setRating}));
     }
   };
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
-      <fieldset style={{border: 'none'}} disabled={!isCommentsLoaded}>
+      <fieldset style={{border: 'none'}} disabled={!statusLoadComments}>
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
         <div className="reviews__rating-form form__rating">
           {ratingStars.map((ratingStar) => (

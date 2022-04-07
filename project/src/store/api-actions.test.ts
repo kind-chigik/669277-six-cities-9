@@ -24,7 +24,7 @@ describe('Async actions', () => {
       ThunkDispatch<State, typeof api, Action>
     >(middlewares);
 
-  it('authorization status should be «auth» when server return 200', async () => {    // Тест checkAuthAction
+  it('authorization status should be «auth» when server return 200', async () => {
     const store = mockStore();
     mockAPI.onGet(APIRoute.Login).reply(200, []);
 
@@ -36,7 +36,7 @@ describe('Async actions', () => {
     expect(actions).toContain(requireAuthorization.toString());
   });
 
-  it('Login should be save when server return 200 and GET /login', async () => {    // Тест checkAuthAction на сохранение логина
+  it('Login should be save when server return 200 and GET /login', async () => {
     const mockLogin = 'aaaa@mail.ru';
     const store = mockStore();
 
@@ -48,7 +48,7 @@ describe('Async actions', () => {
     expect(actions).toContain(saveUserLogin.toString());
   });
 
-  it('should dispatch loadOffers when GET /hotels', async () => {         // Тест fetchOffersAction
+  it('should dispatch loadOffers when GET /hotels', async () => {
     const store = mockStore();
 
     mockAPI.onGet(APIRoute.Hotels).reply(200, offers);
@@ -59,7 +59,7 @@ describe('Async actions', () => {
     expect(actions).toContain(loadOffers.toString());
   });
 
-  it('should dispatch loadComments when GET /comments/id', async () => {    // Тест fetchCommentsAction
+  it('should dispatch loadComments when GET /comments/id', async () => {
     const mockId = 1000;
     const store = mockStore();
 
@@ -71,10 +71,12 @@ describe('Async actions', () => {
     expect(actions).toContain(loadComments.toString());
   });
 
-  it('should dispatch fetchCommentsAction when POST /comments/id', async () => {    // Тест addCommentAction
+  it('should dispatch fetchCommentsAction when POST /comments/id', async () => {
     const comment = 'Однозначно ставлю 5. Всё отлично:сервис приятный, завтраки разнообразные.';
     const rating = 10;
     const id = 1110;
+    const clearText = () => '';
+    const clearRating = () => 0;
 
     const store = mockStore();
 
@@ -82,13 +84,13 @@ describe('Async actions', () => {
 
     expect(store.getActions()).toEqual([]);
 
-    await store.dispatch(addCommentAction({comment, rating, id}));
+    await store.dispatch(addCommentAction({comment, rating, id, clearText, clearRating}));
 
     const actions = store.getActions().map(({type}) => type);
     expect(actions).toContain('data/fetchComments/pending');
   });
 
-  it('should dispatch loadNearbyOffers when GET /hotels/id/nearby', async () => {       // Тест fetchNearbyOffersAction
+  it('should dispatch loadNearbyOffers when GET /hotels/id/nearby', async () => {
     const mockId = 1100;
     mockAPI.onGet(`${APIRoute.Hotels}/${mockId}${APIRoute.Nearby}`).reply(200, offers);
 
@@ -100,7 +102,7 @@ describe('Async actions', () => {
     expect(actions).toContain(loadNearbyOffers.toString());
   });
 
-  it('should dispatch RequriedAuthorization POST /login', async () => {        // Тест  loginAction
+  it('should dispatch RequriedAuthorization POST /login', async () => {
     const fakeUser = {email: 'test@test.ru', password: '123456'};
     const store = mockStore();
 
@@ -116,7 +118,7 @@ describe('Async actions', () => {
     expect(Storage.prototype.setItem).toBeCalledWith('six-cities-token', 'secret');
   });
 
-  it('should dispatch Logout when Delete /logout', async () => {        // Тест  logoutAction
+  it('should dispatch Logout when Delete /logout', async () => {
     const store = mockStore();
 
     mockAPI.onDelete(APIRoute.Logout).reply(204);
@@ -131,7 +133,7 @@ describe('Async actions', () => {
     expect(Storage.prototype.removeItem).toBeCalledWith('six-cities-token');
   });
 
-  it('should dispatch loadOffers when POST /favorite/id/status', async () => {        // Тест  changeFavorite
+  it('should dispatch loadOffers when POST /favorite/id/status', async () => {
     const status = 3;
     const id = 3000;
     const store = mockStore();

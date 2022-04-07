@@ -1,11 +1,12 @@
 import Header from '../header/header';
 import CitiesList from '../cities-list/cities-list';
 import OffersCity from '../offers-city/offers-city';
-import {Hotel} from '../../types/hotel';
 import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
+import {Hotel} from '../../types/hotel';
 import {getActiveOffer, getSortedOffersForCity} from '../../utils/utils';
 import {cities} from '../../const';
+import {getOfferSort, getActiveCity} from '../../store/app-process/selectors';
 
 type OfferProps = {
   offers: Hotel[];
@@ -14,7 +15,9 @@ type OfferProps = {
 function Main({offers}: OfferProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState(0);
   const activeOffer = getActiveOffer(offers, activeOfferId);
-  const {offerSort, activeCity} = useAppSelector(({APP}) => APP);
+  const offerSort = useAppSelector(getOfferSort);
+  const activeCity = useAppSelector(getActiveCity);
+
   const offersForActiveCity = offers.filter((offer) => offer.city.name === activeCity);
   const sortedOffersForActiveCity = getSortedOffersForCity(offersForActiveCity, offerSort);
 

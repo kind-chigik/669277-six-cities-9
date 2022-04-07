@@ -1,7 +1,7 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {Action, APIRoute, AuthorizationStatus} from '../const';
-import {loadOffers, loadComments, loadNearbyOffers} from './data-process/data-process';
+import {Action, APIRoute, AuthorizationStatus, STATUS_LOAD_ERROR} from '../const';
+import {loadOffers, loadComments, loadNearbyOffers, changeStatusLoad} from './data-process/data-process';
 import {requireAuthorization} from './user-process/user-process';
 import {saveUserLogin} from './app-process/app-process';
 import {AuthData} from '../types/auth-data';
@@ -90,12 +90,15 @@ export const addCommentAction = createAsyncThunk<void, UserComment, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
-}>(Action.AddComment, async ({comment, rating, id}, {dispatch, extra: api}) => {
+}>(Action.AddComment, async ({comment, rating, id, clearText, clearRating}, {dispatch, extra: api}) => {
   try {
     await api.post(`${APIRoute.Comments}${id}`, {comment, rating});
     dispatch(fetchCommentsAction(id));
+    clearText('');
+    clearRating(0);
   } catch(error) {
     errorHandle(error);
+    dispatch(changeStatusLoad(STATUS_LOAD_ERROR));
   }
 });
 
@@ -103,11 +106,14 @@ export const changeFavorite = createAsyncThunk<void, HotelFavorite, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
-}>(Action.ChangeFavorite, async ({id, status}, {dispatch, extra: api}) => {
+}>(Action.ChangeFavorite, async ({id, status, offerRendersCard}, {dispatch, extra: api}) => {
   try {
     await api.post(`${APIRoute.Favorite}/${id}/${status}`, {status});
     const {data} = await api.get(APIRoute.Hotels);
     dispatch(loadOffers(data));
+    if (offerRendersCard) {
+      dispatch(fetchNearbyOffersAction(offerRendersCard));
+    }
   } catch(error) {
     errorHandle(error);
   }

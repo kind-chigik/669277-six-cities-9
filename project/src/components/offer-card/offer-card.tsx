@@ -4,19 +4,24 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {AuthorizationStatus, AppRoute} from '../../const';
 import {useNavigate} from 'react-router-dom';
 import {changeFavorite} from '../../store/api-actions';
-import {getRatingStars} from '../../utils/utils';
+import {getRatingStars, transformFirstLetter} from '../../utils/utils';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 type OfferCardProps = {
   offer: Hotel;
   activeOfferHandler?: (id: number) => void;
+  currentOfferId?: number;
 }
 
-function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
+function OfferCard({offer, activeOfferHandler, currentOfferId}: OfferCardProps): JSX.Element {
   const {id, price, title, type, previewImage, isPremium, isFavorite, rating} = offer;
-  const {authorizationStatus} = useAppSelector(({USER}) => USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const starsRating = getRatingStars(rating, true);
+  const convertedType = transformFirstLetter(type);
+  const isBookmarkActive = authorizationStatus === AuthorizationStatus.Auth ? isFavorite : false;
 
   const mouseEnterHandler = () => {
     if (activeOfferHandler) {
@@ -24,12 +29,12 @@ function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
     }
   };
 
-  const bookmarkClickHandler = () => {
+  const handleBookmarkClick = () => {
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       return navigate(AppRoute.Login);
     }
     const status = Number(!isFavorite);
-    dispatch(changeFavorite({id: id, status: status}));
+    dispatch(changeFavorite({id: id, status: status, offerRendersCard: currentOfferId}));
   };
 
   return (
@@ -49,7 +54,7 @@ function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isFavorite && 'place-card__bookmark-button--active'}`} type="button" onClick={bookmarkClickHandler}>
+          <button className={`place-card__bookmark-button button ${isBookmarkActive && 'place-card__bookmark-button--active'}`} type="button" onClick={handleBookmarkClick}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -65,7 +70,7 @@ function OfferCard({offer, activeOfferHandler}: OfferCardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{convertedType}</p>
       </div>
     </article>
   );

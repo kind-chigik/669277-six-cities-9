@@ -50,4 +50,5 @@ export type OfferForMap = {
 export type HotelFavorite = {
   id: number;
   status: number;
+  offerRendersCard?: number | undefined;
 };

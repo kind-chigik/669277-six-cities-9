@@ -8,9 +8,11 @@ import PrivateRoute from '../private-route/private-route';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
+import {getOffers, getStatusLoadData} from '../../store/data-process/selectors';
 
 function App(): JSX.Element {
-  const {offers, isDataLoaded}= useAppSelector(({DATA})=> DATA);
+  const offers = useAppSelector(getOffers);
+  const isDataLoaded = useAppSelector(getStatusLoadData);
 
   if (!isDataLoaded) {
     return (

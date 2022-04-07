@@ -2,7 +2,7 @@ import {Hotel} from '../types/hotel';
 import {City} from '../types/city';
 import {OfferForMap} from '../types/hotel';
 import {UserReview} from '../types/user-review';
-import {citiesForMap, INITIAL_CITY, SortType} from '../const';
+import {citiesForMap, INITIAL_CITY, SortType, cities} from '../const';
 
 export function getRatingStars(rating: number, isCard?: boolean): string {
   if (isCard) {
@@ -98,4 +98,13 @@ export function getSortedReviews(reviews: UserReview[]) {
 
   const result = reviewsCopy.sort(compareDate);
   return result;
+}
+
+export function transformFirstLetter(word: string): string {
+  return `${word[0].toUpperCase()}${word.slice(1)}`;
+}
+
+export function getRandomCity(): string {
+  const city = Math.floor(Math.random() * cities.length);
+  return cities[city];
 }

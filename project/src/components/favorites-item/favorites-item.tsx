@@ -2,7 +2,7 @@ import {Hotel} from '../../types/hotel';
 import {Link} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks';
 import {changeFavorite} from '../../store/api-actions';
-import {getRatingStars} from '../../utils/utils';
+import {getRatingStars, transformFirstLetter} from '../../utils/utils';
 
 type OfferProps = {
   offer: Hotel;
@@ -14,8 +14,9 @@ function FavoritesItem({offer}: OfferProps): JSX.Element {
   const offerUrl = `/offer/${id}`;
   const dispatch = useAppDispatch();
   const starsRating = getRatingStars(rating, true);
+  const convertedType = transformFirstLetter(type);
 
-  const bookmarkClickHandler = () => {
+  const handleBookmarkClick = () => {
     const status = Number(!isFavorite);
     dispatch(changeFavorite({id: id, status: status}));
   };
@@ -46,7 +47,7 @@ function FavoritesItem({offer}: OfferProps): JSX.Element {
                 <b className="place-card__price-value">&euro;{price}</b>
                 <span className="place-card__price-text">&#47;&nbsp;night</span>
               </div>
-              <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={bookmarkClickHandler}>
+              <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={handleBookmarkClick}>
                 <svg className="place-card__bookmark-icon" width="18" height="19">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -62,7 +63,7 @@ function FavoritesItem({offer}: OfferProps): JSX.Element {
             <h2 className="place-card__name">
               <Link to={offerUrl}>{title}</Link>
             </h2>
-            <p className="place-card__type">{type}</p>
+            <p className="place-card__type">{convertedType}</p>
           </div>
         </article>
       </div>
